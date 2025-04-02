@@ -1,3 +1,5 @@
 import useNavi from "./common/useNavi";
 
-export { useNavi };
+import useCatchAsyncError from "./fetch/useCatchAsyncError";
+
+export { useNavi, useCatchAsyncError };
