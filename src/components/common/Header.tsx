@@ -4,7 +4,7 @@ function Header() {
   return (
     <>
       <Navibar />
-      <div className="flex h-40 items-center justify-center bg-header text-white"></div>
+      <div className="bg-header flex h-40 items-center justify-center text-white"></div>
     </>
   );
 }
