@@ -7,7 +7,7 @@ function Navibar() {
     <>
       <div className="flex sticky top-0 z-10 w-screen h-20 bg-black text-white justify-between items-center">
         <div
-          className="text-2xl font-bold ml-10 cursor-pointer"
+          className="text-2xl font-bold ml-5 cursor-pointer"
           onClick={handleHome}
         >
           Herb Blog
