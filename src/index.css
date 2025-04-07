@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .bg-header {
   @apply bg-[url('/images/header.jpg')] bg-cover bg-center;
 }
