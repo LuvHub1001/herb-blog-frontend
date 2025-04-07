@@ -27,7 +27,7 @@ function Navibar() {
           className="flex fixed inset-0 items-center justify-center bg-black/50 backdrop-blur-sm"
           onClick={handleSearchButton}
         >
-          <div className="bg-white p-4 rounded-lg shadow-lg">
+          <div className="bg-white rounded-lg shadow-lg">
             <input
               type="text"
               placeholder="검색어를 입력해주세요"
