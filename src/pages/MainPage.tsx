@@ -1,5 +1,7 @@
+import { PostContainer } from "../components";
+
 function MainPage() {
-  return <div>MainPage입니다</div>;
+  return <PostContainer />;
 }
 
 export default MainPage;
