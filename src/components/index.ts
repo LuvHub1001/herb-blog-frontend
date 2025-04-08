@@ -4,6 +4,7 @@ import Loading from "./common/Loading";
 import Navibar from "./common/Navibar";
 import Header from "./common/Header";
 import Footer from "./common/Footer";
+import LoginModal from "./common/LoginModal";
 import RenderComponent from "./common/RenderComponent";
 
 // posts
@@ -18,6 +19,7 @@ export {
   Navibar,
   Header,
   Footer,
+  LoginModal,
   RenderComponent,
   PostContainer,
   PostFetch,
