@@ -13,20 +13,20 @@ function PostFetch() {
 
   const recentItems = useFetch<string, PostFetchResult>(
     get,
-    "http://localhost:5000/api/boards/",
+    "http://localhost:5000/api/boards/main-recent",
   );
   const tilItems = useFetch<string, PostFetchResult>(
     get,
-    "http://localhost:5000/api/boards/til/",
+    "http://localhost:5000/api/boards/til/main-til",
   );
   const diaryItems = useFetch<string, PostFetchResult>(
     get,
-    "http://localhost:5000/api/boards/diary/",
+    "http://localhost:5000/api/boards/diary/main-diary",
   );
 
-  const recentMainItems = recentItems?.data?.slice(0, 4) ?? [];
-  const tilMainItems = tilItems?.data?.slice(0, 4) ?? [];
-  const diaryMainItems = diaryItems?.data?.slice(0, 4) ?? [];
+  const recentMainItems = recentItems?.data ?? [];
+  const tilMainItems = tilItems?.data ?? [];
+  const diaryMainItems = diaryItems?.data ?? [];
 
   return (
     <div>
