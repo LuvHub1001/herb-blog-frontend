@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
 import { PostItem, RenderComponent } from "../";
@@ -8,6 +9,8 @@ interface PostFetchResult {
   totalPageCount: number;
 }
 function PostFetch() {
+  const navigate = useNavigate();
+
   const recentItems = useFetch<string, PostFetchResult>(
     get,
     "http://localhost:5000/api/boards/",
@@ -28,7 +31,14 @@ function PostFetch() {
   return (
     <div>
       <div className="recent-container mt-10 h-70">
-        <div className="text-2xl text-gray-400 font-bold">Recent</div>
+        <div className="text-2xl text-gray-400 font-bold">
+          <span
+            className="cursor-pointer"
+            onClick={() => navigate("/posts/recent")}
+          >
+            Recent
+          </span>
+        </div>
         <RenderComponent
           className="recent-render grid grid-cols-4 gap-10 mr-3"
           items={recentMainItems}
@@ -39,7 +49,14 @@ function PostFetch() {
       </div>
 
       <div className="til-container mt-35 h-70">
-        <div className="text-2xl text-gray-400 font-bold">TIL</div>
+        <div className="text-2xl text-gray-400 font-bold">
+          <span
+            className="cursor-pointer"
+            onClick={() => navigate("/posts/til")}
+          >
+            TIL
+          </span>
+        </div>
         <RenderComponent
           className="til-render grid grid-cols-4 gap-10 mr-3"
           items={tilMainItems}
@@ -50,7 +67,14 @@ function PostFetch() {
       </div>
 
       <div className="diary-container mt-35 h-70">
-        <span className="text-2xl text-gray-400 font-bold">Diary</span>
+        <div className="text-2xl text-gray-400 font-bold">
+          <span
+            className="cursor-pointer"
+            onClick={() => navigate("/posts/diary")}
+          >
+            Diary
+          </span>
+        </div>
         <RenderComponent
           className="diary-render grid grid-cols-4 gap-10 mr-3"
           items={diaryMainItems}
