@@ -11,7 +11,8 @@ import RenderComponent from "./common/RenderComponent";
 import PostContainer from "./posts/PostContainer";
 import PostFetch from "./posts/PostFetch";
 import PostItem from "./posts/PostItem";
-import PostSkeleton from "./posts/PostSkeleton";
+import PostMainSkeleton from "./posts/PostMainSkeleton";
+import PostList from "./posts/PostList";
 
 export {
   ErrorBoundary,
@@ -24,5 +25,6 @@ export {
   PostContainer,
   PostFetch,
   PostItem,
-  PostSkeleton,
+  PostMainSkeleton,
+  PostList,
 };
