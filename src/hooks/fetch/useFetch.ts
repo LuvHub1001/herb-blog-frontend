@@ -4,8 +4,6 @@ import { useCatchAsyncError } from "../";
 
 export type Nullable<T> = T | undefined | null;
 
-// FOR JSON AUTO
-
 const useFetch = <Params extends string, FetchResult>(
   fetch: (params: Params, config?: AxiosRequestConfig) => Promise<FetchResult>,
   params: Params,
