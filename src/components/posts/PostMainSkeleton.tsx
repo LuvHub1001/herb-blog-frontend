@@ -1,4 +1,4 @@
-function PostSkeleton() {
+function PostMainSkeleton() {
   return (
     <div className="flex ml-3 h-70 w-85 justify-center bg-gray-400 rounded-2xl animate-pulse">
       <div>
@@ -9,4 +9,4 @@ function PostSkeleton() {
   );
 }
 
-export default PostSkeleton;
+export default PostMainSkeleton;
