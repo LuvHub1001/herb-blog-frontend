@@ -96,30 +96,33 @@ axiosInstance.interceptors.response.use(
   },
 );
 
-export const get = async <T>(
+export const get = async <Response>(
   url: string,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> => {
+): Promise<Response> => {
   return await axiosInstance.get(url, config);
 };
 
-export const post = async <T>(
+export const post = async <Request, Response>(
   url: string,
-  data: any,
+  data: Request,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> => {
+): Promise<Response> => {
   return await axiosInstance.post(url, data, config);
 };
 
-export const patch = async <T>(
+export const patch = async <Request, Response>(
   url: string,
-  data: any,
+  data: Request,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> => {
+): Promise<Response> => {
   return await axiosInstance.patch(url, data, config);
 };
 
-export const remove = async (url: string, config?: AxiosRequestConfig) => {
+export const remove = async <Response>(
+  url: string,
+  config?: AxiosRequestConfig,
+): Promise<Response> => {
   return await axiosInstance.delete(url, config);
 };
 
