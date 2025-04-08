@@ -1,21 +1,39 @@
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
 import { PostItem, RenderComponent } from "../";
+import { PostType, Nullable } from "../../types";
 
+interface PostFetchResult {
+  data: Nullable<PostType[]>;
+  totalPageCount: number;
+}
 function PostFetch() {
-  const recentItems = useFetch(get, "");
-  const tilItems = useFetch(get, "");
-  const diaryItems = useFetch(get, "");
+  const recentItems = useFetch<string, PostFetchResult>(
+    get,
+    "http://localhost:5000/api/boards/",
+  );
+  const tilItems = useFetch<string, PostFetchResult>(
+    get,
+    "http://localhost:5000/api/boards/til/",
+  );
+  const diaryItems = useFetch<string, PostFetchResult>(
+    get,
+    "http://localhost:5000/api/boards/diary/",
+  );
+
+  const recentMainItems = recentItems?.data?.slice(0, 4) ?? [];
+  const tilMainItems = tilItems?.data?.slice(0, 4) ?? [];
+  const diaryMainItems = diaryItems?.data?.slice(0, 4) ?? [];
 
   return (
-    <div className="flex-col">
+    <div>
       <div className="recent-container mt-10 h-70">
         <div className="text-2xl text-gray-400 font-bold">Recent</div>
         <RenderComponent
-          className="recent-render"
-          items={[recentItems]}
-          render={() => {
-            return <PostItem />;
+          className="recent-render grid grid-cols-4 gap-10 mr-3"
+          items={recentMainItems}
+          render={(item) => {
+            return <PostItem items={item} />;
           }}
         />
       </div>
@@ -23,10 +41,10 @@ function PostFetch() {
       <div className="til-container mt-35 h-70">
         <div className="text-2xl text-gray-400 font-bold">TIL</div>
         <RenderComponent
-          className="til-render"
-          items={[tilItems]}
-          render={() => {
-            return <PostItem />;
+          className="til-render grid grid-cols-4 gap-10 mr-3"
+          items={tilMainItems}
+          render={(item) => {
+            return <PostItem items={item} />;
           }}
         />
       </div>
@@ -34,10 +52,10 @@ function PostFetch() {
       <div className="diary-container mt-35 h-70">
         <span className="text-2xl text-gray-400 font-bold">Diary</span>
         <RenderComponent
-          className="diary-render"
-          items={[diaryItems]}
-          render={() => {
-            return <PostItem />;
+          className="diary-render grid grid-cols-4 gap-10 mr-3"
+          items={diaryMainItems}
+          render={(item) => {
+            return <PostItem items={item} />;
           }}
         />
       </div>
