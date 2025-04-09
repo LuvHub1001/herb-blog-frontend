@@ -8,7 +8,7 @@ interface RenderProps<T> {
 
 function RenderComponent<T>({ className, items, render }: RenderProps<T>) {
   return (
-    items && (
+    items.length > 0 && (
       <div className={className}>
         {items.map((item: T, idx: number) => {
           return <div key={idx}>{render(item)}</div>;
