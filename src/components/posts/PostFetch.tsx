@@ -17,11 +17,11 @@ function PostFetch() {
   );
   const tilItems = useFetch<string, PostFetchResult>(
     get,
-    "http://localhost:5000/api/boards/til/main-til",
+    "http://localhost:5000/api/boards/main-til",
   );
   const diaryItems = useFetch<string, PostFetchResult>(
     get,
-    "http://localhost:5000/api/boards/diary/main-diary",
+    "http://localhost:5000/api/boards/main-diary",
   );
 
   const recentMainItems = recentItems?.data ?? [];
