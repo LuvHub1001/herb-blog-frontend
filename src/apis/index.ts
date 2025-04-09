@@ -3,7 +3,6 @@ import axios, {
   isAxiosError,
   InternalAxiosRequestConfig,
   AxiosRequestConfig,
-  AxiosResponse,
 } from "axios";
 
 const AXIOS_TIMEOUT = 5000;
