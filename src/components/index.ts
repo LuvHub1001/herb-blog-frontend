@@ -6,6 +6,7 @@ import Header from "./common/Header";
 import Footer from "./common/Footer";
 import LoginModal from "./common/LoginModal";
 import RenderComponent from "./common/RenderComponent";
+import Pagination from "./common/Pagination";
 
 // posts
 import PostContainer from "./posts/PostContainer";
@@ -22,6 +23,7 @@ export {
   Footer,
   LoginModal,
   RenderComponent,
+  Pagination,
   PostContainer,
   PostFetch,
   PostItem,
