@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { PostContainer } from "../components";
 
 function MainPage() {
-  return <PostContainer />;
+  const navigate = useNavigate();
+  return (
+    <>
+      <button onClick={() => navigate("/post/edit")}>글쓰기</button>
+      <PostContainer />;
+    </>
+  );
 }
 
 export default MainPage;

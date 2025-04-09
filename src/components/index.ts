@@ -15,6 +15,9 @@ import PostItem from "./posts/PostItem";
 import PostMainSkeleton from "./posts/PostMainSkeleton";
 import PostList from "./posts/PostList";
 
+// admin
+import PostEditor from "./admin/PostEditor";
+
 export {
   ErrorBoundary,
   Loading,
@@ -29,4 +32,5 @@ export {
   PostItem,
   PostMainSkeleton,
   PostList,
+  PostEditor,
 };
