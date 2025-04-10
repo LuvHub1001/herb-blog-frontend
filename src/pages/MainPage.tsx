@@ -6,7 +6,7 @@ function MainPage() {
   return (
     <>
       <button onClick={() => navigate("/post/edit")}>글쓰기</button>
-      <PostContainer />;
+      <PostContainer />
     </>
   );
 }
