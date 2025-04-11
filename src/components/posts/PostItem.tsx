@@ -10,7 +10,7 @@ function PostItem({ items }: itemsType) {
       <div className="mt-3 h-80 border-1">
         <div className="image-container flex w-full h-60 border-b-1">
           <img
-            src={items.thumbnail}
+            src={items.thumbnail || "/images/default-thumbnail.png"}
             className="w-full h-full border-0 cursor-pointer"
           />
         </div>
