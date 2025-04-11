@@ -6,9 +6,6 @@ import { post } from "../../apis";
 function PostEditor() {
   const editorRef = useRef<Editor>(null);
   const [formData, setFormData] = useState({
-    category: "",
-    title: "",
-    subTitle: "",
     writer: "LuvHub",
   });
 
@@ -22,18 +19,48 @@ function PostEditor() {
     const editorInstance = editorRef.current;
     const content = editorInstance?.getInstance().getMarkdown() || "";
 
+    let thumbnailUrl = "";
+
+    if (thumbnailFile) {
+      const imageForm = new FormData();
+      imageForm.append("image", thumbnailFile);
+
+      try {
+        const response: any = await post(
+          "http://localhost:4000/upload",
+          imageForm,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          },
+        );
+
+        thumbnailUrl = response.data.url;
+      } catch (error) {
+        console.error("썸네일 업로드 실패:", error);
+        alert("썸네일 업로드 실패");
+        return;
+      }
+    }
+
     const postData = {
       ...formData,
       content,
+      thumbnail: thumbnailUrl,
     };
 
     try {
-      post("http://localhost:5000/api/boards", postData);
+      await post("http://localhost:5000/api/boards", postData);
       alert("게시글이 저장되었습니다!");
       window.location.href = "/";
     } catch (err) {
       alert("게시글 저장에 실패했습니다.");
     }
+  };
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+
+  const handleThumbnailSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setThumbnailFile(file);
   };
 
   return (
@@ -67,6 +94,15 @@ function PostEditor() {
               onChange={handleChange}
             />
           </div>
+
+          <div className="thumbnail-box flex mt-3 pl-7 pr-7 gap-4 items-center">
+            <label className="font-bold text-gray-600">썸네일:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleThumbnailSelect}
+            />
+          </div>
         </div>
       </div>
 
@@ -78,6 +114,29 @@ function PostEditor() {
           height="800px"
           initialEditType="markdown"
           useCommandShortcut={true}
+          hooks={{
+            addImageBlobHook: async (blob: File, callback: typeof Function) => {
+              const formData = new FormData();
+              formData.append("image", blob);
+
+              try {
+                const response: any = await post(
+                  "http://localhost:4000/upload",
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+
+                const imageUrl = response.data.url;
+                callback(imageUrl, "image");
+              } catch (error) {
+                console.error("이미지 업로드 실패:", error);
+              }
+
+              return false;
+            },
+          }}
         />
       </div>
 
