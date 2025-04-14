@@ -1,11 +1,7 @@
 import { PostList } from "../components";
 
 function PostPage() {
-  return (
-    <>
-      <PostList />
-    </>
-  );
+  return <PostList />;
 }
 
 export default PostPage;
