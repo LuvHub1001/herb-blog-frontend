@@ -1,6 +1,10 @@
 import "../../css/PostView.css";
 import { useParams } from "react-router-dom";
 import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import "prismjs/themes/prism.css";
+import Prism from "prismjs";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
 import { PostType } from "../../types";
@@ -29,7 +33,10 @@ function PostView() {
           <div className="w-auto border-b-1 border-gray-300" />
           <div className="m-4">
             <div className="text-[20px] leading-loose">
-              <Viewer initialValue={postData.content} />
+              <Viewer
+                initialValue={postData.content}
+                plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+              />
             </div>
           </div>
         </>
