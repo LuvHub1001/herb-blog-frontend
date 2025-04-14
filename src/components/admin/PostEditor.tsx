@@ -36,7 +36,6 @@ function PostEditor() {
 
         thumbnailUrl = response.data.url;
       } catch (error) {
-        console.error("썸네일 업로드 실패:", error);
         alert("썸네일 업로드 실패");
         return;
       }
@@ -65,7 +64,7 @@ function PostEditor() {
 
   return (
     <form action="post" onSubmit={(e) => e.preventDefault()}>
-      <div className="title-container flex mt-10 h-55 w-[1500px] m-auto border border-gray-200 rounded-2xl items-center">
+      <div className="title-container flex mt-10 h-65 w-[1500px] m-auto border border-gray-200 rounded-2xl items-center">
         <div className="w-full">
           <div className="category-box flex ml-7 h-13 w-[500px] border border-gray-200 rounded-[8px]">
             <select
@@ -95,10 +94,12 @@ function PostEditor() {
             />
           </div>
 
-          <div className="thumbnail-box flex mt-3 pl-7 pr-7 gap-4 items-center">
+          <div className="thumbnail-box flex pt-4 pl-8 pr-7 gap-4 items-center">
             <label className="font-bold text-gray-600">썸네일:</label>
             <input
               type="file"
+              className="border-1 rounded
+              file:bg-black file:text-white file:cursor-pointer"
               accept="image/*"
               onChange={handleThumbnailSelect}
             />
