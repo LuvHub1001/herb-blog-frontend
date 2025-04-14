@@ -40,7 +40,7 @@ function PostFetch() {
           </span>
         </div>
         <RenderComponent
-          className="recent-render grid grid-cols-4 gap-10 mr-3"
+          className="flex gap-12"
           items={recentMainItems}
           render={(item) => {
             return <PostItem items={item} />;
@@ -58,7 +58,7 @@ function PostFetch() {
           </span>
         </div>
         <RenderComponent
-          className="til-render grid grid-cols-4 gap-10 mr-3"
+          className="til-render flex gap-12"
           items={tilMainItems}
           render={(item) => {
             return <PostItem items={item} />;
@@ -76,7 +76,7 @@ function PostFetch() {
           </span>
         </div>
         <RenderComponent
-          className="diary-render grid grid-cols-4 gap-10 mr-3"
+          className="diary-render flex gap-12"
           items={diaryMainItems}
           render={(item) => {
             return <PostItem items={item} />;
