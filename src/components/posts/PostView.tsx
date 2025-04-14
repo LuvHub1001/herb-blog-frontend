@@ -19,7 +19,7 @@ function PostView() {
   const postData: PostType | null = response?.data?.[0] || null;
 
   return (
-    <div className="post-container w-auto h-auto ml-10 mt-10 border-2 border-gray-500 rounded-2xl">
+    <div className="post-container w-auto min-h-150 ml-2 mr-2 mt-10 border-2 border-gray-500 rounded-2xl">
       {postData ? (
         <>
           <div className="m-4">

@@ -19,42 +19,48 @@ function PostItem({ items }: itemsType) {
 
   return (
     <>
-      <div className="mt-3 h-85 w-90 border-1 rounded-2xl">
+      <div className="mt-3 h-90 w-90 border-1 rounded-2xl">
         <div className="image-container flex w-full h-50 border-b-1">
           <img
-            src={items.thumbnail || "/images/default-thumbnail.png"}
+            alt="이미지"
+            src={items.thumbnail || "/images/default_thumbnail.jpg"}
             className="w-full h-full cursor-pointer rounded-t-2xl"
             onClick={() => navigate(`/posts/detail/${items.id}`)}
           />
         </div>
         <div className="pt-2 flex flex-col">
-          <div>
+          <div className="pl-2 text-[20px] font-bold">
             <span
-              className="pl-2 text-[20px] font-bold cursor-pointer"
+              className="cursor-pointer hover:border-b-1"
               onClick={() => navigate(`/posts/detail/${items.id}`)}
             >
-              {items.title.length > 15
+              {items.title.length > 22
                 ? items.title.slice(0, 22) + "..."
                 : items.title}
             </span>
           </div>
-          <div className="flex justify-between pt-2 pl-2">
+          <div className="flex justify-between items-center pt-2 pl-2 ">
             <span
               className="cursor-pointer text-gray-700"
               onClick={() => navigate(`/posts/detail/${items.id}`)}
             >
               {items.subTitle}
             </span>
-            <span className="pr-1">{items.workdate.slice(0, 10)}</span>
+            <span className="pr-1 text-gray-700">{items.writer}</span>
           </div>
 
           <div
-            className="pt-2 pl-2"
+            className="pt-2 pl-2 cursor-pointer"
             onClick={() => navigate(`/posts/detail/${items.id}`)}
           >
-            {markdownRegex(items.content).length > 50
-              ? markdownRegex(items.content).slice(0, 50) + "..."
-              : markdownRegex(items.content)}
+            <span className="hover:border-b-1">
+              {markdownRegex(items.content).length > 40
+                ? markdownRegex(items.content).slice(0, 40) + "..."
+                : markdownRegex(items.content)}
+            </span>
+          </div>
+          <div className="pt-2 pl-2 text-gray-400 italic">
+            {items.workdate.slice(0, 10)}
           </div>
         </div>
       </div>
