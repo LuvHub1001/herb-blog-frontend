@@ -36,7 +36,7 @@ function PostFetch() {
             className="cursor-pointer"
             onClick={() => navigate("/posts/recent")}
           >
-            Recent
+            RECENT
           </span>
         </div>
         <RenderComponent
@@ -72,7 +72,7 @@ function PostFetch() {
             className="cursor-pointer"
             onClick={() => navigate("/posts/diary")}
           >
-            Diary
+            DIARY
           </span>
         </div>
         <RenderComponent
