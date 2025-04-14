@@ -26,7 +26,7 @@ function PostView() {
               {postData.workdate.slice(0, 10)}
             </p>
           </div>
-          <div className="w-screen border-b-1 border-gray-300" />
+          <div className="w-auto border-b-1 border-gray-300" />
           <div className="m-4">
             <div className="text-[20px] leading-loose">
               <Viewer initialValue={postData.content} />
