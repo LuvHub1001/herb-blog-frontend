@@ -14,6 +14,7 @@ import PostFetch from "./posts/PostFetch";
 import PostItem from "./posts/PostItem";
 import PostMainSkeleton from "./posts/PostMainSkeleton";
 import PostList from "./posts/PostList";
+import PostView from "./posts/PostView";
 
 // admin
 import PostEditor from "./admin/PostEditor";
@@ -32,5 +33,6 @@ export {
   PostItem,
   PostMainSkeleton,
   PostList,
+  PostView,
   PostEditor,
 };
