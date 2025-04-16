@@ -18,6 +18,8 @@ import PostView from "./posts/PostView";
 
 // admin
 import PostEditor from "./admin/PostEditor";
+import Sidebar from "./admin/Sidebar";
+import AdminPostList from "./admin/AdminPostList";
 
 export {
   ErrorBoundary,
@@ -35,4 +37,6 @@ export {
   PostList,
   PostView,
   PostEditor,
+  Sidebar,
+  AdminPostList,
 };
