@@ -62,7 +62,7 @@ function PostFetch() {
         />
       </div>
 
-      <div className="diary-container mt-50 h-100 ">
+      <div className="diary-container mt-50 mb-30 h-100 ">
         <div className="text-2xl text-gray-400 font-bold">
           <span
             className="cursor-pointer"

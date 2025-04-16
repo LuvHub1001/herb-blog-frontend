@@ -18,7 +18,7 @@ function PostView() {
   const postData = response && response.length > 0 ? response[0] : null;
 
   return (
-    <div className="post-container w-auto min-h-150 ml-2 mr-2 mt-10 border-2 border-gray-500 rounded-2xl">
+    <div className="post-container w-auto min-h-150 border-2 border-gray-500 rounded-2xl ml-2 mr-2 mt-10 mb-30">
       {postData ? (
         <>
           <div className="m-4">

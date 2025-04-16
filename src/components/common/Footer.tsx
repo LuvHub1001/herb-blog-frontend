@@ -6,7 +6,7 @@ function Footer() {
 
   return (
     <>
-      <div className="flex mt-30 h-30 w-full items-center justify-center bg-black text-white">
+      <div className="flex h-30 w-full items-center justify-center bg-black text-white">
         <div>ⓒ 2025. Herb Corp. All rights reserved.</div>
         <img
           className="cursor-pointer ml-4"

@@ -146,7 +146,7 @@ function PostEditor() {
         />
       </div>
 
-      <div className="mt-10 flex button-container gap-3 float-right mr-50">
+      <div className="flex button-container gap-3 float-right mt-10 mb-30 mr-50 ">
         <button
           type="button"
           className="w-20 h-10 bg-blue-300 rounded-[8px] cursor-pointer"

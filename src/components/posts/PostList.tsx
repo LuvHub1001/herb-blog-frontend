@@ -97,7 +97,7 @@ function PostList() {
         </div>
       </div>
 
-      <div className="mt-30">
+      <div className="mt-30 mb-30">
         <Pagination
           totalItems={totalItems}
           divider={divider}
