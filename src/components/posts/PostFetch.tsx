@@ -2,31 +2,27 @@ import { useNavigate } from "react-router-dom";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
 import { PostItem, RenderComponent } from "../";
-import { PostType, Nullable } from "../../types";
+import { PostType } from "../../types";
 
-interface PostFetchResult {
-  data: Nullable<PostType[]>;
-  totalPageCount: number;
-}
 function PostFetch() {
   const navigate = useNavigate();
 
-  const recentItems = useFetch<string, PostFetchResult>(
+  const recentItems = useFetch<string, PostType[]>(
     get,
     "http://localhost:5000/api/boards/main-recent",
   );
-  const tilItems = useFetch<string, PostFetchResult>(
+  const tilItems = useFetch<string, PostType[]>(
     get,
     "http://localhost:5000/api/boards/main-til",
   );
-  const diaryItems = useFetch<string, PostFetchResult>(
+  const diaryItems = useFetch<string, PostType[]>(
     get,
     "http://localhost:5000/api/boards/main-diary",
   );
 
-  const recentMainItems = recentItems?.data ?? [];
-  const tilMainItems = tilItems?.data ?? [];
-  const diaryMainItems = diaryItems?.data ?? [];
+  const recentMainItems = recentItems ?? [];
+  const tilMainItems = tilItems ?? [];
+  const diaryMainItems = diaryItems ?? [];
 
   return (
     <div>

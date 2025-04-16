@@ -7,7 +7,6 @@ import "prismjs/themes/prism.css";
 import Prism from "prismjs";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
-import { PostType } from "../../types";
 
 function PostView() {
   const { id } = useParams();
@@ -16,7 +15,7 @@ function PostView() {
     `http://localhost:5000/api/boards/detail/${id}`,
   );
 
-  const postData: PostType | null = response?.data?.[0] || null;
+  const postData = response && response.length > 0 ? response[0] : null;
 
   return (
     <div className="post-container w-auto min-h-150 ml-2 mr-2 mt-10 border-2 border-gray-500 rounded-2xl">

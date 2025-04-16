@@ -6,12 +6,10 @@ import { Pagination } from "../";
 import { PostType } from "../../types";
 
 interface PostFetchResult {
-  data: {
-    res: PostType[];
-    totalCount: number;
-    startIndex: number;
-    endIndex: number;
-  };
+  res: PostType[];
+  totalCount: number;
+  startIndex: number;
+  endIndex: number;
   totalPageCount: number;
 }
 
@@ -34,7 +32,7 @@ function PostList() {
   const [totalItems, setTotalItems] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const postRes = useFetch<string, PostFetchResult>(
+  const postItems = useFetch<string, PostFetchResult>(
     get,
     category && category !== "recent"
       ? `http://localhost:5000/api/boards/${category}/${currentPage}/${divider}`
@@ -42,11 +40,11 @@ function PostList() {
   );
 
   useEffect(() => {
-    if (postRes?.data) {
-      setPostItem(postRes.data.res ?? []);
-      setTotalItems(postRes.data.totalCount ?? 0);
+    if (postItems?.res) {
+      setPostItem(postItems?.res ?? []);
+      setTotalItems(postItems.totalCount ?? 0);
     }
-  }, [postRes]);
+  }, [postItems]);
 
   return (
     <>
