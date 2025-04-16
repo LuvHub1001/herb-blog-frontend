@@ -1,3 +1,4 @@
 import withCommonLayout from "./withCommonLayout";
+import withAdminLayout from "./withAdminLayout";
 
-export { withCommonLayout };
+export { withCommonLayout, withAdminLayout };
