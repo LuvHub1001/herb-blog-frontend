@@ -99,7 +99,8 @@ export const get = async <Response>(
   url: string,
   config?: AxiosRequestConfig,
 ): Promise<Response> => {
-  return await axiosInstance.get(url, config);
+  const res = await axiosInstance.get(url, config);
+  return res.data;
 };
 
 export const post = async <Request, Response>(
@@ -107,7 +108,8 @@ export const post = async <Request, Response>(
   data: Request,
   config?: AxiosRequestConfig,
 ): Promise<Response> => {
-  return await axiosInstance.post(url, data, config);
+  const res = await axiosInstance.post(url, data, config);
+  return res.data;
 };
 
 export const patch = async <Request, Response>(
