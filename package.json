@@ -18,9 +18,11 @@
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.8.4",
+    "chart.js": "^4.4.9",
     "jotai": "^2.12.2",
     "prismjs": "^1.30.0",
     "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"
   },
