@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
 import { Pagination } from "../";
@@ -13,6 +14,8 @@ interface PostFetchResult {
 }
 
 function AdminPostList() {
+  const navigate = useNavigate();
+
   const divider = 10;
 
   const [postItem, setPostItem] = useState<PostType[]>([]);
@@ -31,17 +34,38 @@ function AdminPostList() {
     }
   }, [postItems]);
 
-  console.log(postItem);
-
   return (
     <div>
-      <div>
+      <div className="mb-15 min-h-155">
+        <div className="flex w-full justify-between text-center mb-5 font-bold text-2xl text-gray-500">
+          <p className="w-120">제목</p>
+          <p className="w-120">작성자</p>
+          <p className="w-100">카테고리</p>
+          <p className="w-auto">작성일자</p>
+        </div>
         {postItem.map((item) => {
           return (
-            <div className="flex justify-between">
-              <div>{item.title}</div>
-              <div>{item.writer}</div>
-              <div>{item.workdate.slice(0, 10)}</div>
+            <div
+              className="flex border-b border-gray-300 items-center"
+              key={item.id}
+            >
+              <div
+                className="flex w-120 h-15 items-center"
+                onClick={() => navigate(`/posts/detail/${item.id}`)}
+              >
+                <span className="cursor-pointer hover:text-blue-500 ">
+                  {item.title}
+                </span>
+              </div>
+              <div className="flex w-120 justify-center items-center">
+                <span>{item.writer}</span>
+              </div>
+              <div className="flex w-100 justify-center items-center">
+                <span>{item.category.toUpperCase()}</span>
+              </div>
+              <div className="flex w-auto justify-center items-center">
+                <span>{item.workdate.slice(0, 10)}</span>
+              </div>
             </div>
           );
         })}
@@ -49,8 +73,8 @@ function AdminPostList() {
 
       <Pagination
         divider={divider}
-        totalItems={totalItems}
         onPageChange={setCurrentPage}
+        totalItems={totalItems}
       />
     </div>
   );

@@ -13,7 +13,7 @@ function withCommonLayout(Component: ComponentType) {
           }}
         >
           <Sidebar />
-          <div className="m-auto">
+          <div className="flex w-full justify-center items-center">
             <Component />
           </div>
         </div>
