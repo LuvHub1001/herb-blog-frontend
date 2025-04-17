@@ -1,5 +1,7 @@
+import { AdminChart } from "../components";
+
 function AdminPage() {
-  return <></>;
+  return <AdminChart />;
 }
 
 export default AdminPage;

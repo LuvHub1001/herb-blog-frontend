@@ -20,6 +20,7 @@ import PostView from "./posts/PostView";
 import PostEditor from "./admin/PostEditor";
 import Sidebar from "./admin/Sidebar";
 import AdminPostList from "./admin/AdminPostList";
+import AdminChart from "./admin/AdminChart";
 
 export {
   ErrorBoundary,
@@ -39,4 +40,5 @@ export {
   PostEditor,
   Sidebar,
   AdminPostList,
+  AdminChart,
 };
