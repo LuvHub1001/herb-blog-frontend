@@ -24,61 +24,38 @@ function PostFetch() {
   const tilMainItems = tilItems ?? [];
   const diaryMainItems = diaryItems ?? [];
 
+  const renderSection = (title: string, items: PostType[], path: string) => (
+    <div className="mb-20">
+      <div className="mb-4 flex items-center justify-between">
+        <h2
+          className="text-2xl font-bold text-gray-700 cursor-pointer hover:text-blue-500 transition"
+          onClick={() => navigate(path)}
+        >
+          {title.toUpperCase()}
+        </h2>
+        <span
+          className="text-sm text-blue-500 hover:underline cursor-pointer"
+          onClick={() => navigate(path)}
+        >
+          전체 보기 &rarr;
+        </span>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto scrollbar-hide">
+        <RenderComponent
+          className="flex gap-6 min-w-max"
+          items={items}
+          render={(item) => <PostItem items={item} />}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <div>
-      <div className="recent-container mt-10 h-70">
-        <div className="text-2xl text-gray-400 font-bold">
-          <span
-            className="cursor-pointer"
-            onClick={() => navigate("/posts/recent")}
-          >
-            RECENT
-          </span>
-        </div>
-        <RenderComponent
-          className="flex gap-12"
-          items={recentMainItems}
-          render={(item) => {
-            return <PostItem items={item} />;
-          }}
-        />
-      </div>
-
-      <div className="til-container mt-50 h-70">
-        <div className="text-2xl text-gray-400 font-bold">
-          <span
-            className="cursor-pointer"
-            onClick={() => navigate("/posts/til")}
-          >
-            TIL
-          </span>
-        </div>
-        <RenderComponent
-          className="til-render flex gap-12"
-          items={tilMainItems}
-          render={(item) => {
-            return <PostItem items={item} />;
-          }}
-        />
-      </div>
-
-      <div className="diary-container mt-50 mb-30 h-100 ">
-        <div className="text-2xl text-gray-400 font-bold">
-          <span
-            className="cursor-pointer"
-            onClick={() => navigate("/posts/diary")}
-          >
-            DIARY
-          </span>
-        </div>
-        <RenderComponent
-          className="diary-render flex gap-12"
-          items={diaryMainItems}
-          render={(item) => {
-            return <PostItem items={item} />;
-          }}
-        />
-      </div>
+    <div className="px-6 py-10 bg-gray-50 min-h-screen">
+      {renderSection("recent", recentMainItems, "/posts/recent")}
+      {renderSection("til", tilMainItems, "/posts/til")}
+      {renderSection("diary", diaryMainItems, "/posts/diary")}
     </div>
   );
 }

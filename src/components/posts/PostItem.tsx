@@ -18,53 +18,48 @@ function PostItem({ items }: itemsType) {
   };
 
   return (
-    <>
-      <div className="mt-3 h-90 w-90 border-1 rounded-2xl">
-        <div className="image-container flex w-full h-50 border-b-1">
-          <img
-            alt="이미지"
-            src={items.thumbnail || "/images/default_thumbnail.jpg"}
-            className="w-full h-full cursor-pointer rounded-t-2xl"
+    <div className="w-[280px] h-[370px] bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden flex flex-col">
+      <div className="h-[160px] overflow-hidden">
+        <img
+          alt="썸네일"
+          src={items.thumbnail || "/images/default_thumbnail.jpg"}
+          className="w-full h-full object-cover cursor-pointer"
+          onClick={() => navigate(`/posts/detail/${items.id}`)}
+        />
+      </div>
+
+      <div className="p-4 flex flex-col justify-between flex-1">
+        <div className="flex flex-col gap-2">
+          <h3
+            className="text-lg font-bold text-gray-800 cursor-pointer hover:text-blue-500 transition line-clamp-1"
             onClick={() => navigate(`/posts/detail/${items.id}`)}
-          />
-        </div>
-        <div className="pt-2 flex flex-col">
-          <div className="pl-2 text-[20px] font-bold">
+          >
+            {items.title}
+          </h3>
+
+          <div className="flex justify-between items-center text-sm text-gray-600">
             <span
-              className="cursor-pointer hover:border-b-1"
-              onClick={() => navigate(`/posts/detail/${items.id}`)}
-            >
-              {items.title.length > 22
-                ? items.title.slice(0, 22) + "..."
-                : items.title}
-            </span>
-          </div>
-          <div className="flex justify-between items-center pt-2 pl-2 ">
-            <span
-              className="cursor-pointer text-gray-700"
+              className="truncate max-w-[70%] cursor-pointer"
               onClick={() => navigate(`/posts/detail/${items.id}`)}
             >
               {items.subTitle}
             </span>
-            <span className="pr-1 text-gray-700">{items.writer}</span>
+            <span className="text-gray-500">{items.writer}</span>
           </div>
 
-          <div
-            className="pt-2 pl-2 cursor-pointer"
+          <p
+            className="text-sm text-gray-700 cursor-pointer hover:text-blue-500 transition line-clamp-2"
             onClick={() => navigate(`/posts/detail/${items.id}`)}
           >
-            <span className="hover:border-b-1">
-              {markdownRegex(items.content).length > 40
-                ? markdownRegex(items.content).slice(0, 40) + "..."
-                : markdownRegex(items.content)}
-            </span>
-          </div>
-          <div className="pt-2 pl-2 text-gray-400 italic">
-            {items.workdate.slice(0, 10)}
-          </div>
+            {markdownRegex(items.content)}
+          </p>
+        </div>
+
+        <div className="text-xs text-gray-400 italic mt-2">
+          {items.workdate.slice(0, 10)}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
