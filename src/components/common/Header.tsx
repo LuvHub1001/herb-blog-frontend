@@ -31,8 +31,6 @@ function Header() {
       : undefined,
   );
 
-  console.log(data);
-
   useEffect(() => {
     if (data && data.message === "토큰 유효" && data.user?.role === "super") {
       setIsAdmin(true);
