@@ -27,6 +27,7 @@ function PublicRouter() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<WrappedMainPage />} />
+          <Route path="/posts/edit/" element={<WrappedEditPage />} />
           <Route path="/posts/edit/:id" element={<WrappedEditPage />} />
           <Route path="/posts/:category" element={<WrappedPostPage />} />
           <Route path="/posts/detail/:id" element={<WrappedPostViewPage />} />
