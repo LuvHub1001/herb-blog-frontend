@@ -147,7 +147,7 @@ function PostEditor() {
                   },
                 );
 
-                const imageUrl = response.data.url;
+                const imageUrl = response.url;
                 callback(imageUrl, "image");
               } catch (error) {
                 console.error("이미지 업로드 실패:", error);
