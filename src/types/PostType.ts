@@ -7,5 +7,6 @@ export type PostType = {
   subContent: string;
   thumbnail: string;
   category: string;
+  viewCount: number;
   workdate: string;
 };

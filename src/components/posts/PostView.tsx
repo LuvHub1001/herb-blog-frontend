@@ -1,21 +1,33 @@
-import "../../css/PostView.css";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Viewer } from "@toast-ui/react-editor";
-import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import "prismjs/themes/prism.css";
 import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
+import "../../css/PostView.css";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
+import { PostType } from "../../types";
 
 function PostView() {
   const { id } = useParams();
-  const response = useFetch<string, any>(
+  const response = useFetch<string, PostType>(
     get,
     `http://localhost:5000/api/boards/detail/${id}`,
   );
 
-  const postData = response && response.length > 0 ? response[0] : null;
+  const postData = response ?? null;
+
+  useEffect(() => {
+    const viewedKey = `viewed-post-${id}`;
+    const viewed = sessionStorage.getItem(viewedKey);
+
+    if (!viewed) {
+      get(`http://localhost:5000/api/boards/detail/${id}`);
+      sessionStorage.setItem(viewedKey, "true");
+    }
+  }, [id]);
 
   return (
     <div className="post-container w-auto min-h-150 border-2 border-gray-500 rounded-2xl ml-2 mr-2 mt-10 mb-30">
