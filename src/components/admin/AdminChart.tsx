@@ -65,32 +65,21 @@ function AdminChart() {
     ],
   };
 
-  const [todayViews, setTodayViews] = useState<number>(0);
-  const [yesterdayViews, setYesterdayViews] = useState<number>(0);
-  const [totalViews, setTotalViews] = useState<number>(0);
+  const [todayViews, setTodayViews] = useState(0);
+  const [yesterdayViews, setYesterdayViews] = useState(0);
+  const [totalViews, setTotalViews] = useState(0);
 
-  const [todayVisitors, setTodayVisitors] = useState<number>(0);
-  const [yesterdayVisitors, setYesterdayVisitors] = useState<number>(0);
-  const [totalVisitors, setTotalVisitors] = useState<number>(0);
+  const [todayVisitors, setTodayVisitors] = useState(0);
+  const [yesterdayVisitors, setYesterdayVisitors] = useState(0);
+  const [totalVisitors, setTotalVisitors] = useState(0);
+
   useEffect(() => {
     if (viewsData && visitorsData) {
       const currentDate = new Date();
-      const today = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}-${currentDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")}`; // 오늘 날짜 (YYYY-MM-DD)
+      const today = currentDate.toISOString().split("T")[0];
 
       currentDate.setDate(currentDate.getDate() - 1);
-      const yesterday = `${currentDate.getFullYear()}-${(
-        currentDate.getMonth() + 1
-      )
-        .toString()
-        .padStart(2, "0")}-${currentDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")}`;
+      const yesterday = currentDate.toISOString().split("T")[0];
 
       let todayViewCount = 0;
       let yesterdayViewCount = 0;
@@ -131,9 +120,9 @@ function AdminChart() {
   }, [viewsData, visitorsData]);
 
   return (
-    <div className="chart-wrapper">
-      <div className="flex w-300 h-50 border-1 border-gray-300 rounded-2xl justify-between items-center pl-10 pr-10">
-        <div className="view-data flex w-150 justify-around border-r border-gray-600">
+    <div className="w-full px-4 py-6 space-y-6">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 p-6 border border-gray-300 rounded-2xl shadow-sm bg-white">
+        <div className="flex-1 border-b md:border-b-0 md:border-r border-gray-300 pb-4 md:pb-0 md:pr-6 flex justify-around text-center">
           <div className="text-gray-500">
             오늘 조회수
             <p className="font-bold text-black text-2xl">{todayViews}</p>
@@ -150,7 +139,7 @@ function AdminChart() {
           </div>
         </div>
 
-        <div className="visit-data flex w-150 justify-around">
+        <div className="flex-1 flex justify-around text-center">
           <div className="text-gray-500">
             오늘 방문자
             <p className="font-bold text-black text-2xl">{todayVisitors}</p>
@@ -168,9 +157,9 @@ function AdminChart() {
         </div>
       </div>
 
-      <br />
-
-      <Line data={manageData} />
+      <div className="bg-white p-4 rounded-2xl shadow-sm">
+        <Line data={manageData} />
+      </div>
     </div>
   );
 }

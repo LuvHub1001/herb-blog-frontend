@@ -5,7 +5,7 @@ function Navibar() {
 
   return (
     <>
-      <div className="flex sticky top-0 z-10 w-full h-20 bg-black text-white justify-between items-center">
+      <div className="flex sticky top-0 z-1000 w-full h-20 bg-black text-white justify-between items-center">
         <div
           className="text-2xl font-bold ml-5 cursor-pointer"
           onClick={handleHome}

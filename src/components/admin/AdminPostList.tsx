@@ -35,41 +35,39 @@ function AdminPostList() {
   }, [postItems]);
 
   return (
-    <div>
-      <div className="mb-15 min-h-155">
-        <div className="flex w-full justify-between text-center mb-5 font-bold text-2xl text-gray-500">
-          <p className="w-120">제목</p>
-          <p className="w-120">작성자</p>
-          <p className="w-100">카테고리</p>
-          <p className="w-auto">작성일자</p>
-        </div>
-        {postItem.map((item) => {
-          return (
-            <div
-              className="flex border-b border-gray-300 items-center"
-              key={item.id}
-            >
-              <div
-                className="flex w-120 h-15 items-center"
-                onClick={() => navigate(`/posts/detail/${item.id}`)}
-              >
-                <span className="cursor-pointer hover:text-blue-500 ">
-                  {item.title}
-                </span>
-              </div>
-              <div className="flex w-120 justify-center items-center">
-                <span>{item.writer}</span>
-              </div>
-              <div className="flex w-100 justify-center items-center">
-                <span>{item.category.toUpperCase()}</span>
-              </div>
-              <div className="flex w-auto justify-center items-center">
-                <span>{item.workdate.slice(0, 10)}</span>
-              </div>
-            </div>
-          );
-        })}
+    <div className="w-full px-6 py-4">
+      <div className="hidden md:flex w-full text-center mb-4 font-semibold text-gray-600 text-lg border-b pb-2">
+        <p className="flex-1 text-left pl-2">제목</p>
+        <p className="flex-1">작성자</p>
+        <p className="flex-1">카테고리</p>
+        <p className="flex-1">작성일자</p>
       </div>
+
+      {postItem.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col md:flex-row border-b border-gray-200 py-3 md:items-center mb-4"
+        >
+          <div
+            onClick={() => navigate(`/posts/detail/${item.id}`)}
+            className="flex-1 cursor-pointer text-blue-600 hover:underline font-medium px-4 py-2"
+          >
+            {item.title}
+          </div>
+
+          <div className="flex-1 text-gray-700 px-4 py-2 text-center">
+            {item.writer}
+          </div>
+
+          <div className="flex-1 text-gray-500 uppercase px-4 py-2 text-center">
+            {item.category}
+          </div>
+
+          <div className="flex-1 text-gray-500 px-4 py-2 text-center">
+            {item.workdate.slice(0, 10)}
+          </div>
+        </div>
+      ))}
 
       <Pagination
         divider={divider}

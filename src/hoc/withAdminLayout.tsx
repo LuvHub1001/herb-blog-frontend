@@ -4,18 +4,13 @@ import { Header, Footer, Sidebar } from "../components";
 function withCommonLayout(Component: ComponentType) {
   const WrappedComponent = () => {
     return (
-      <div>
+      <div className="relative">
         <Header />
-        <div
-          style={{
-            display: "flex",
-            minHeight: "calc(100vh - 360px)",
-          }}
-        >
+        <div className="flex min-h-[calc(100vh-360px)]">
           <Sidebar />
-          <div className="flex w-full justify-center items-center">
+          <main className="flex-1 flex justify-center items-center">
             <Component />
-          </div>
+          </main>
         </div>
         <Footer />
       </div>
