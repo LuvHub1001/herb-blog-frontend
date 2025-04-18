@@ -25,7 +25,7 @@ function LoginModal() {
       window.location.reload();
     } catch (e) {
       console.log(e);
-      alert("로그인 실패");
+      alert("존재하지 않는 계정입니다");
     }
   };
 

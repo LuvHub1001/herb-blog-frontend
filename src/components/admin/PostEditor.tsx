@@ -12,11 +12,17 @@ function PostEditor() {
   const [formData, setFormData] = useState({
     writer: "LuvHub",
   });
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleThumbnailSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setThumbnailFile(file);
   };
 
   const handleSave = async () => {
@@ -38,8 +44,9 @@ function PostEditor() {
           },
         );
 
-        thumbnailUrl = response.data.url;
+        thumbnailUrl = response.url;
       } catch (error) {
+        console.log(error);
         alert("썸네일 업로드 실패");
         return;
       }
@@ -51,19 +58,25 @@ function PostEditor() {
       thumbnail: thumbnailUrl,
     };
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
-      await post("http://localhost:5000/api/boards", postData);
+      await post("http://localhost:5000/api/boards", postData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
       alert("게시글이 저장되었습니다!");
       window.location.href = "/";
     } catch (err) {
       alert("게시글 저장에 실패했습니다.");
     }
-  };
-  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-
-  const handleThumbnailSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setThumbnailFile(file);
   };
 
   return (
