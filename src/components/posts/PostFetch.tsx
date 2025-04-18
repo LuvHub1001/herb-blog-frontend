@@ -40,8 +40,7 @@ function PostFetch() {
           전체 보기 &rarr;
         </span>
       </div>
-
-      <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto scrollbar-hide">
+      <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto scrollbar-hide ">
         <RenderComponent
           className="flex gap-6 min-w-max"
           items={items}
@@ -52,7 +51,7 @@ function PostFetch() {
   );
 
   return (
-    <div className="px-6 py-10 bg-gray-50 min-h-screen">
+    <div className="px-6 py-10 bg-gray-50 min-h-screen -ml-14 sm:ml-0">
       {renderSection("recent", recentMainItems, "/posts/recent")}
       {renderSection("til", tilMainItems, "/posts/til")}
       {renderSection("diary", diaryMainItems, "/posts/diary")}
