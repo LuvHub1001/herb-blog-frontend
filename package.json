@@ -18,6 +18,7 @@
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.8.4",
+    "browser-image-compression": "^2.0.2",
     "chart.js": "^4.4.9",
     "jotai": "^2.12.2",
     "prismjs": "^1.30.0",
