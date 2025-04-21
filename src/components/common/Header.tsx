@@ -16,7 +16,7 @@ interface VerifyResponse {
 function Header() {
   const navigate = useNavigate();
   const locate = useLocation();
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const data = useFetch<string, VerifyResponse>(

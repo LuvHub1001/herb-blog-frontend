@@ -20,7 +20,7 @@ interface VerifyResponse {
 }
 
 function PostView() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { post } from "../../apis";
 
 interface LoginResponse {
@@ -8,6 +8,13 @@ interface LoginResponse {
 function LoginModal() {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      window.location.reload();
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +27,7 @@ function LoginModal() {
           password,
         },
       );
-      localStorage.setItem("token", res.token);
+      sessionStorage.setItem("token", res.token);
       alert("환영합니다!");
       window.location.reload();
     } catch (e) {
