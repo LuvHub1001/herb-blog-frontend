@@ -15,6 +15,7 @@ import PostItem from "./posts/PostItem";
 import PostMainSkeleton from "./posts/PostMainSkeleton";
 import PostList from "./posts/PostList";
 import PostView from "./posts/PostView";
+import SearchResultList from "./posts/SearchResultList";
 
 // admin
 import PostEditor from "./admin/PostEditor";
@@ -37,6 +38,7 @@ export {
   PostMainSkeleton,
   PostList,
   PostView,
+  SearchResultList,
   PostEditor,
   Sidebar,
   AdminPostList,
