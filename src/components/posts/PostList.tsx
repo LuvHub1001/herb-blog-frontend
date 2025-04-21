@@ -45,6 +45,10 @@ function PostList() {
     }
   }, [postItems]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   return (
     <div className="px-6 py-10 bg-gray-50 min-h-screen">
       <div className="text-3xl font-bold text-gray-700 mb-6 ml-4 uppercase">

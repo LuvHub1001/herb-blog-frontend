@@ -34,6 +34,10 @@ function AdminPostList() {
     }
   }, [postItems]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   return (
     <div className="w-full px-6 py-4">
       <div className="hidden md:flex w-full text-center mb-4 font-semibold text-gray-600 text-lg border-b pb-2">
