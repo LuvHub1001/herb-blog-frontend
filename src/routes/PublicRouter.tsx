@@ -21,6 +21,9 @@ const WrappedAdminPage = withAdminLayout(AdminPage);
 const AdminPostPage = lazy(() => import("../pages/AdminPostPage"));
 const WrappedAdminPostPage = withAdminLayout(AdminPostPage);
 
+const SearchPage = lazy(() => import("../pages/SearchPage"));
+const WrappedSearchPage = withCommonLayout(SearchPage);
+
 function PublicRouter() {
   return (
     <Suspense fallback={<Loading />}>
@@ -33,6 +36,7 @@ function PublicRouter() {
           <Route path="/posts/detail/:id" element={<WrappedPostViewPage />} />
           <Route path="/admin" element={<WrappedAdminPage />} />
           <Route path="/admin/postlist" element={<WrappedAdminPostPage />} />
+          <Route path="/search" element={<WrappedSearchPage />} />
         </Routes>
       </BrowserRouter>
     </Suspense>
