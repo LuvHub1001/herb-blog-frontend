@@ -26,7 +26,7 @@ function Sidebar() {
         className={clsx(
           "bg-black text-white border-r w-64 flex-shrink-0 z-40",
           "lg:static lg:translate-x-0 lg:flex",
-          "fixed top-0 left-0 transition-transform duration-300",
+          "fixed top-32 left-0 transition-transform duration-300",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "h-screen lg:h-auto",
           "overflow-y-auto",
