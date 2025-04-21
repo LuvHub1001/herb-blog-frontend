@@ -94,9 +94,7 @@ function PostView() {
   return (
     <>
       <div
-        className={`post-container w-auto min-h-150 border-2 border-gray-500 rounded-2xl ml-2 mr-2 mt-10 ${
-          isAdmin ? "mb-0" : "mb-30"
-        }`}
+        className={`post-container w-auto min-h-150 border-2 border-gray-500 rounded-2xl ml-2 mr-2 mt-10 `}
       >
         {postData ? (
           <>
@@ -126,7 +124,7 @@ function PostView() {
       </div>
 
       {isAdmin === true ? (
-        <div className="flex button-container gap-3 float-right mt-5 mb-30 mr-3">
+        <div className="flex gap-3 justify-end mt-5 mb-30 mr-3">
           <button
             type="button"
             className="w-20 h-10 bg-blue-300 rounded-[8px] cursor-pointer"
@@ -141,8 +139,25 @@ function PostView() {
           >
             삭제
           </button>
+          <button
+            type="button"
+            className="w-24 h-10 bg-gray-300 rounded-[8px] cursor-pointer"
+            onClick={() => navigate(-1)}
+          >
+            목록으로
+          </button>
         </div>
-      ) : null}
+      ) : (
+        <div className="flex gap-3 justify-end mt-5 mb-30 mr-3">
+          <button
+            type="button"
+            className="w-24 h-10 bg-gray-300 rounded-[8px] cursor-pointer"
+            onClick={() => navigate(-1)}
+          >
+            목록으로
+          </button>
+        </div>
+      )}
     </>
   );
 }
