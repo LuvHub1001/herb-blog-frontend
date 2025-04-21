@@ -48,7 +48,7 @@ function PostView() {
     const confirmDelete = window.confirm("정말 이 게시글을 삭제하시겠습니까?");
     if (!confirmDelete || !id) return;
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       alert("로그인이 필요합니다.");
       return;

@@ -71,9 +71,38 @@ function PostEditor() {
       thumbnail: thumbnailUrl,
     };
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       alert("로그인이 필요합니다.");
+      return;
+    }
+
+    if (!formData.category) {
+      alert("카테고리를 선택해 주세요.");
+      return;
+    }
+
+    if (!formData.subTitle) {
+      alert("소제목을 입력해 주세요.");
+      const subTitleInput = document.querySelector(
+        'input[name="subTitle"]',
+      ) as HTMLInputElement;
+      subTitleInput?.focus();
+      return;
+    }
+
+    if (!formData.title) {
+      alert("제목을 입력해 주세요.");
+      const titleInput = document.querySelector(
+        'input[name="title"]',
+      ) as HTMLInputElement;
+      titleInput?.focus();
+      return;
+    }
+
+    if (!content.trim()) {
+      alert("본문 내용을 작성해 주세요.");
+      editorRef.current?.getInstance().focus();
       return;
     }
 
