@@ -6,10 +6,13 @@ import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import "prismjs/themes/prism.css";
 import Prism from "prismjs";
+import imageCompression from "browser-image-compression";
 import { get, post, patch } from "../../apis";
 
 function PostEditor() {
   const editorRef = useRef<Editor>(null);
+  const isMobile = window.innerWidth <= 768;
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -126,12 +129,12 @@ function PostEditor() {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="title-container flex mt-10 h-65 w-[1500px] m-auto border border-gray-200 rounded-2xl items-center">
+      <div className="flex flex-col mt-10 w-full max-w-[1520px] mx-auto border border-gray-200 rounded-2xl p-4">
         <div className="w-full">
-          <div className="category-box flex ml-7 h-13 w-[500px] border border-gray-200 rounded-[8px]">
+          <div className="flex mb-4">
             <select
               name="category"
-              className="w-[500px] pl-1"
+              className="w-full border border-gray-200 rounded-md px-2 py-2"
               value={formData.category}
               onChange={handleChange}
             >
@@ -141,31 +144,36 @@ function PostEditor() {
             </select>
           </div>
 
-          <div className="title-box flex mt-3 pl-7 pr-7">
+          <div className="flex mb-4">
             <input
               name="subTitle"
-              className="bg-gray-200 w-1/2 h-13 text-[18px] rounded-[8px] pl-3"
+              className="w-full bg-gray-200 h-12 text-[18px] rounded-md px-3"
               placeholder="소제목을 입력해 주세요."
               value={formData.subTitle}
               onChange={handleChange}
             />
           </div>
 
-          <div className="title-box flex mt-3 pl-7 pr-7">
+          <div className="flex mb-4">
             <input
               name="title"
-              className="bg-gray-200 w-full h-13 text-[18px] rounded-[8px] pl-3"
+              className="w-full bg-gray-200 h-12 text-[18px] rounded-md px-3"
               placeholder="제목을 입력해 주세요."
               value={formData.title}
               onChange={handleChange}
             />
           </div>
 
-          <div className="thumbnail-box flex pt-4 pl-8 pr-7 gap-4 items-center">
-            <label className="font-bold text-gray-600">썸네일:</label>
+          <div className="flex items-center gap-4 mb-4 flex-col sm:flex-row">
+            {isMobile ? null : (
+              <label className="font-bold text-gray-600 min-w-[80px] sm:text-right">
+                썸네일:
+              </label>
+            )}
+
             <input
               type="file"
-              className="border-1 rounded file:bg-black file:text-white file:cursor-pointer"
+              className="border rounded file:bg-black file:text-white file:cursor-pointer"
               accept="image/*"
               onChange={handleThumbnailSelect}
             />
@@ -180,22 +188,56 @@ function PostEditor() {
         </div>
       </div>
 
-      <div className="editor-container w-[1500px] mt-5 mx-auto">
+      <div className="w-full max-w-[1550px] mt-5 mx-auto px-4">
         <Editor
           ref={editorRef}
           initialValue="내용을 입력하세요"
           previewStyle="vertical"
           height="800px"
-          initialEditType="markdown"
+          initialEditType={isMobile ? "wysiwyg" : "markdown"}
           useCommandShortcut={true}
           plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+          hooks={{
+            addImageBlobHook: async (
+              blob: Blob,
+              callback: (url: string, altText?: string) => void,
+            ): Promise<void> => {
+              try {
+                const file = new File([blob], "image.jpg", { type: blob.type });
+
+                const options = {
+                  maxSizeMB: 1,
+                  maxWidthOrHeight: 600,
+                  useWebWorker: true,
+                };
+
+                const resizedFile = await imageCompression(file, options);
+
+                const formData = new FormData();
+                formData.append("image", resizedFile);
+
+                const response: any = await post(
+                  "http://localhost:4000/upload",
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+
+                callback(response.url, "image");
+              } catch (error) {
+                console.error("이미지 업로드 실패:", error);
+                alert("이미지 업로드에 실패했습니다.");
+              }
+            },
+          }}
         />
       </div>
 
-      <div className="flex button-container gap-3 float-right mt-10 mb-30 mr-50">
+      <div className="w-full max-w-[1550px] mx-auto px-4 flex justify-end mt-10 mb-16">
         <button
           type="button"
-          className="w-20 h-10 bg-blue-300 rounded-[8px] cursor-pointer"
+          className="w-24 h-10 bg-blue-300 rounded-md cursor-pointer"
           onClick={handleSave}
         >
           저장
