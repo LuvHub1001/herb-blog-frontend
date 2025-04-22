@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
-import { Pagination } from "../";
+import { NoPost, Pagination } from "../";
 import { PostType } from "../../types";
 
 interface PostFetchResult {
@@ -49,7 +49,9 @@ function PostList() {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
-  return (
+  return postItem.length === 0 ? (
+    <NoPost />
+  ) : (
     <div className="px-6 py-10 bg-gray-50 min-h-screen">
       <div className="text-3xl font-bold text-gray-700 mb-6 ml-4 uppercase">
         {category}

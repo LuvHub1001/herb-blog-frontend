@@ -7,6 +7,7 @@ import Footer from "./common/Footer";
 import LoginModal from "./common/LoginModal";
 import RenderComponent from "./common/RenderComponent";
 import Pagination from "./common/Pagination";
+import NoPost from "./common/NoPost";
 
 // posts
 import PostContainer from "./posts/PostContainer";
@@ -43,4 +44,5 @@ export {
   Sidebar,
   AdminPostList,
   AdminChart,
+  NoPost,
 };

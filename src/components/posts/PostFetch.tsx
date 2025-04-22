@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { get } from "../../apis";
 import { useFetch } from "../../hooks";
-import { PostItem, RenderComponent } from "../";
+import { NoPost, PostItem, RenderComponent } from "../";
 import { PostType } from "../../types";
 
 function PostFetch() {
@@ -40,22 +40,28 @@ function PostFetch() {
           전체 보기 &rarr;
         </span>
       </div>
-      <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto scrollbar-hide ">
-        <RenderComponent
-          className="flex gap-6 min-w-max"
-          items={items}
-          render={(item) => <PostItem items={item} />}
-        />
+      <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto scrollbar-hide">
+        {items.length === 0 ? (
+          <NoPost />
+        ) : (
+          <RenderComponent
+            className="flex gap-6 min-w-max"
+            items={items}
+            render={(item) => <PostItem items={item} />}
+          />
+        )}
       </div>
     </div>
   );
 
   return (
-    <div className="px-6 py-10 bg-gray-50 min-h-screen -ml-14 sm:ml-0">
-      {renderSection("recent", recentMainItems, "/posts/recent")}
-      {renderSection("til", tilMainItems, "/posts/til")}
-      {renderSection("diary", diaryMainItems, "/posts/diary")}
-    </div>
+    <>
+      <div className="px-6 py-10 bg-gray-50 min-h-screen -ml-14 sm:ml-0">
+        {renderSection("recent", recentMainItems, "/posts/recent")}
+        {renderSection("til", tilMainItems, "/posts/til")}
+        {renderSection("diary", diaryMainItems, "/posts/diary")}
+      </div>
+    </>
   );
 }
 
