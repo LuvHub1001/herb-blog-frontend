@@ -51,7 +51,7 @@ function PostEditor() {
 
       try {
         const response: any = await post(
-          "http://localhost:4000/upload",
+          `${import.meta.env.VITE_UPLOAD_URL}`,
           imageForm,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -246,7 +246,7 @@ function PostEditor() {
                 formData.append("image", resizedFile);
 
                 const response: any = await post(
-                  "http://localhost:4000/upload",
+                  `${import.meta.env.VITE_UPLOAD_URL}`,
                   formData,
                   {
                     headers: { "Content-Type": "multipart/form-data" },
