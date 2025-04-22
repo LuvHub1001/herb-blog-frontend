@@ -7,12 +7,17 @@ function App() {
   useEffect(() => {
     const incrementVisitorCount = async () => {
       try {
-        await fetch("http://localhost:5000/api/visitor", {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/visitor`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
         });
+
+        if (!response.ok) {
+          throw new Error("방문자 카운트 증가 실패");
+        }
       } catch (error) {
         console.error("방문자 카운트 증가 실패:", error);
       }

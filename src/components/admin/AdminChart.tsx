@@ -19,7 +19,7 @@ function AdminChart() {
 
   const boardStats = useFetch<string, BoardStats>(
     get,
-    "http://localhost:5000/api/boards/stats",
+    `${import.meta.env.VITE_API_URL}/boards/stats`,
     token
       ? {
           headers: {
@@ -31,7 +31,7 @@ function AdminChart() {
 
   const visitorStats = useFetch<string, VisitorStats>(
     get,
-    "http://localhost:5000/api/visitor/stats",
+    `${import.meta.env.VITE_API_URL}/visitor/stats`,
     token
       ? {
           headers: {

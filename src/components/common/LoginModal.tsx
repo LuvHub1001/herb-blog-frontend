@@ -21,7 +21,7 @@ function LoginModal() {
 
     try {
       const res = await post<{ id: string; password: string }, LoginResponse>(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         {
           id,
           password,

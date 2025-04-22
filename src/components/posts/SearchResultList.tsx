@@ -16,7 +16,7 @@ function SearchResultList() {
 
   const searchResult = useFetch<string, PostType[]>(
     get,
-    `http://localhost:5000/api/boards/search?keyword=${encodeURIComponent(
+    `${import.meta.env.VITE_API_URL}/boards/search?keyword=${encodeURIComponent(
       keyword,
     )}`,
   );

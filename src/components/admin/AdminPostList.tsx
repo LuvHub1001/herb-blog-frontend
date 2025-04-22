@@ -24,7 +24,7 @@ function AdminPostList() {
 
   const postItems = useFetch<string, PostFetchResult>(
     get,
-    `http://localhost:5000/api/boards/${currentPage}/${divider}`,
+    `${import.meta.env.VITE_API_URL}/boards/${currentPage}/${divider}`,
   );
 
   useEffect(() => {

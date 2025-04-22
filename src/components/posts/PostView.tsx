@@ -26,7 +26,7 @@ function PostView() {
 
   const data = useFetch<string, VerifyResponse>(
     get,
-    token ? "http://localhost:5000/api/auth/verify" : "",
+    token ? `${import.meta.env.VITE_API_URL}/auth/verify` : "",
     token
       ? {
           headers: {
@@ -55,7 +55,7 @@ function PostView() {
     }
 
     try {
-      await remove(`http://localhost:5000/api/boards/${id}`, {
+      await remove(`${import.meta.env.VITE_API_URL}/boards/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,7 +72,7 @@ function PostView() {
   const { id } = useParams();
   const response = useFetch<string, PostType>(
     get,
-    `http://localhost:5000/api/boards/detail/${id}`,
+    `${import.meta.env.VITE_API_URL}/boards/detail/${id}`,
   );
 
   const postData = response ?? null;
@@ -82,7 +82,7 @@ function PostView() {
     const viewed = sessionStorage.getItem(viewedKey);
 
     if (!viewed) {
-      get(`http://localhost:5000/api/boards/detail/${id}`);
+      get(`${import.meta.env.VITE_API_URL}/boards/detail/${id}`);
       sessionStorage.setItem(viewedKey, "true");
     }
   }, [id]);

@@ -9,15 +9,15 @@ function PostFetch() {
 
   const recentItems = useFetch<string, PostType[]>(
     get,
-    "http://localhost:5000/api/boards/main-recent",
+    `${import.meta.env.VITE_API_URL}/boards/main-recent`,
   );
   const tilItems = useFetch<string, PostType[]>(
     get,
-    "http://localhost:5000/api/boards/main-til",
+    `${import.meta.env.VITE_API_URL}/boards/main-til`,
   );
   const diaryItems = useFetch<string, PostType[]>(
     get,
-    "http://localhost:5000/api/boards/main-diary",
+    `${import.meta.env.VITE_API_URL}/boards/main-diary`,
   );
 
   const recentMainItems = recentItems ?? [];

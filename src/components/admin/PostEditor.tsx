@@ -108,7 +108,7 @@ function PostEditor() {
 
     try {
       if (id) {
-        await patch(`http://localhost:5000/api/boards/${id}`, postData, {
+        await patch(`${import.meta.env.VITE_API_URL}/boards/${id}`, postData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -116,7 +116,7 @@ function PostEditor() {
         });
         alert("게시글이 수정되었습니다!");
       } else {
-        await post("http://localhost:5000/api/boards", postData, {
+        await post(`${import.meta.env.VITE_API_URL}/boards`, postData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -138,7 +138,7 @@ function PostEditor() {
 
       try {
         const response: any = await get(
-          `http://localhost:5000/api/boards/detail/${id}`,
+          `${import.meta.env.VITE_API_URL}/boards/detail/${id}`,
         );
         setFormData({
           writer: response.writer,

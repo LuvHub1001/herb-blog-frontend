@@ -21,7 +21,7 @@ function Header() {
 
   const data = useFetch<string, VerifyResponse>(
     get,
-    token ? "http://localhost:5000/api/auth/verify" : "",
+    token ? `${import.meta.env.VITE_API_URL}/auth/verify` : "",
     token
       ? {
           headers: {
