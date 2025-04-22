@@ -4,44 +4,57 @@ import "chart.js/auto";
 import { useFetch } from "../../hooks";
 import { get } from "../../apis";
 
-interface Visitor {
-  id: number;
-  ip: string;
-  date: string;
+interface BoardStats {
+  total: number;
+  monthly: { month: string; totalViews: number }[];
 }
 
-interface MonthlyVisitorResponse {
-  res: Visitor[];
-  totalCount: number;
-  startIndex: number;
-  endIndex: number;
+interface VisitorStats {
+  total: number;
+  monthlyStats: { month: string; count: number }[];
 }
 
 function AdminChart() {
-  const monthlyViews = useFetch<string, { month: string; count: number }[]>(
+  const token = localStorage.getItem("token");
+
+  const boardStats = useFetch<string, BoardStats>(
     get,
-    "http://localhost:5000/api/boards/stats/views/monthly",
+    "http://localhost:5000/api/boards/stats",
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
   );
 
-  const monthlyVisitors = useFetch<string, MonthlyVisitorResponse>(
+  const visitorStats = useFetch<string, VisitorStats>(
     get,
-    "http://localhost:5000/api/visitor/stats/monthly",
+    "http://localhost:5000/api/visitor/stats",
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
   );
-
-  const viewsData = monthlyViews || [];
-  const visitorsData: Visitor[] = monthlyVisitors?.res || [];
 
   const formattedViewsData = Array.from({ length: 12 }, (_, i) => {
     const month = `${i + 1}`.padStart(2, "0");
-    const found = viewsData.find((v) => v.month.endsWith(`-${month}`));
-    return { x: `${i + 1}월`, y: found ? found.count : 0 };
+    const found = boardStats?.monthly?.find((v) =>
+      v.month.endsWith(`-${month}`),
+    );
+    return { x: `${i + 1}월`, y: found ? found.totalViews : 0 };
   });
 
   const formattedVisitorsData = Array.from({ length: 12 }, (_, i) => {
     const month = `${i + 1}`.padStart(2, "0");
-    const monthYear = `${new Date().getFullYear()}-${month}`;
-    const found = visitorsData.filter((v) => v.date.startsWith(monthYear));
-    return { x: `${i + 1}월`, y: found.length };
+    const found = visitorStats?.monthlyStats?.find((v) =>
+      v.month.endsWith(`-${month}`),
+    );
+    return { x: `${i + 1}월`, y: found ? found.count : 0 };
   });
 
   const manageData: any = {
@@ -74,50 +87,25 @@ function AdminChart() {
   const [totalVisitors, setTotalVisitors] = useState(0);
 
   useEffect(() => {
-    if (viewsData && visitorsData) {
-      const currentDate = new Date();
-      const today = currentDate.toISOString().split("T")[0];
+    if (boardStats && visitorStats) {
+      const yesterdayDate = new Date();
+      yesterdayDate.setDate(yesterdayDate.getDate() - 1);
 
-      currentDate.setDate(currentDate.getDate() - 1);
-      const yesterday = currentDate.toISOString().split("T")[0];
+      const todayViewCount = boardStats.total || 0;
+      const yesterdayViewCount = 0;
 
-      let todayViewCount = 0;
-      let yesterdayViewCount = 0;
-      let accumulatedViewCount = 0;
-
-      let todayVisitorCount = 0;
-      let yesterdayVisitorCount = 0;
-      let accumulatedVisitorCount = 0;
-
-      viewsData.forEach((item) => {
-        accumulatedViewCount += item.count;
-
-        if (item.month === today.slice(0, 7)) {
-          todayViewCount = item.count;
-        } else if (item.month === yesterday.slice(0, 7)) {
-          yesterdayViewCount = item.count;
-        }
-      });
-
-      visitorsData.forEach((item) => {
-        accumulatedVisitorCount += 1;
-
-        if (item.date === today) {
-          todayVisitorCount += 1;
-        } else if (item.date === yesterday) {
-          yesterdayVisitorCount += 1;
-        }
-      });
+      const todayVisitorCount = visitorStats.total || 0;
+      const yesterdayVisitorCount = 0;
 
       setTodayViews(todayViewCount);
       setYesterdayViews(yesterdayViewCount);
-      setTotalViews(accumulatedViewCount);
+      setTotalViews(boardStats.total || 0);
 
       setTodayVisitors(todayVisitorCount);
       setYesterdayVisitors(yesterdayVisitorCount);
-      setTotalVisitors(accumulatedVisitorCount);
+      setTotalVisitors(visitorStats.total || 0);
     }
-  }, [viewsData, visitorsData]);
+  }, [boardStats, visitorStats]);
 
   return (
     <div className="w-full px-4 py-6 space-y-6">
@@ -133,9 +121,7 @@ function AdminChart() {
           </div>
           <div className="text-gray-500">
             누적 조회수
-            <p className="font-bold text-black text-2xl">
-              {Number(totalViews)}
-            </p>
+            <p className="font-bold text-black text-2xl">{totalViews}</p>
           </div>
         </div>
 
@@ -150,9 +136,7 @@ function AdminChart() {
           </div>
           <div className="text-gray-500">
             누적 방문자
-            <p className="font-bold text-black text-2xl">
-              {Number(totalVisitors)}
-            </p>
+            <p className="font-bold text-black text-2xl">{totalVisitors}</p>
           </div>
         </div>
       </div>
