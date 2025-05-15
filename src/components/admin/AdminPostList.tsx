@@ -44,6 +44,7 @@ function AdminPostList() {
         <p className="flex-1 text-left pl-2">제목</p>
         <p className="flex-1">작성자</p>
         <p className="flex-1">카테고리</p>
+        <p className="flex-1">조회수</p>
         <p className="flex-1">작성일자</p>
       </div>
 
@@ -65,6 +66,10 @@ function AdminPostList() {
 
           <div className="flex-1 text-gray-500 uppercase px-4 py-2 text-center">
             {item.category}
+          </div>
+
+          <div className="flex-1 text-gray-500 uppercase px-4 py-2 text-center">
+            {item.viewCount}
           </div>
 
           <div className="flex-1 text-gray-500 px-4 py-2 text-center">
