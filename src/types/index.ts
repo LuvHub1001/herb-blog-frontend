@@ -1,4 +1,13 @@
-import type { PostType } from "./PostType";
-import type { Nullable } from "./Nullable";
-
-export { PostType, Nullable };
+export type {
+  ApiResponse,
+  BoardListItem,
+  BoardDetail,
+  PaginatedBoards,
+  SearchResult,
+  CreateBoardRequest,
+  UpdateBoardRequest,
+  BoardStats,
+  VisitorStats,
+  AuthUser,
+} from "./PostType";
+export type { Nullable } from "./Nullable";

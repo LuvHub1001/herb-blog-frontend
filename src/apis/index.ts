@@ -1,137 +1,45 @@
-import axios, {
-  HttpStatusCode,
-  isAxiosError,
-  InternalAxiosRequestConfig,
-  AxiosRequestConfig,
-} from "axios";
+import axios from "axios";
 
-const AXIOS_TIMEOUT = 5000;
-const RETRY_TIMEOUT = 10000;
-const RETRY_MAX_COUNT = 3;
-let RETRY_COUNT = 0;
-
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.BASE_URL,
-  timeout: AXIOS_TIMEOUT,
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axiosInstance.interceptors.request.use(
-  (req) => {
-    if (req.data instanceof FormData) {
-      req.headers["Content-Type"] = "multipart/form-data";
-    }
-    return req;
-  },
-  (err: Error) => {
-    if (isAxiosError(err)) {
-      switch (err.status) {
-        case HttpStatusCode.NotFound: {
-          console.log(
-            `CANNOT FOUND ENDPOINT <REQ> :: ${err.config?.baseURL} ${err.config?.url}`,
-          );
-          break;
-        }
+// 토큰 자동 주입
+instance.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-        case HttpStatusCode.BadRequest: {
-          console.log(`BAD REQUEST <REQ> :: ${err.config?.headers}`);
-          break;
-        }
-
-        default: {
-          console.log(`AXIOS ERROR <REQ> :: ${err.message} ${err.status}`);
-          break;
-        }
-      }
-    } else throw err;
-  },
-);
-
-axiosInstance.interceptors.response.use(
+// { success, data } 응답 자동 언래핑
+instance.interceptors.response.use(
   (res) => {
-    RETRY_COUNT = 3;
+    const body = res.data;
+    if (body && typeof body === "object" && "success" in body) {
+      if (body.success) {
+        res.data = body.data;
+      } else {
+        return Promise.reject(new Error(body.error || "요청이 실패했습니다."));
+      }
+    }
     return res;
   },
-  (err: Error) => {
-    if (isAxiosError(err)) {
-      switch (err.status) {
-        case HttpStatusCode.NotFound: {
-          console.log(
-            `CANNOT FOUND ENDPOINT <RES> :: ${err.config?.baseURL} ${err.config?.url}`,
-          );
-          break;
-        }
+  (error) => {
+    const message =
+      error.response?.data?.error || error.message || "네트워크 오류";
 
-        case HttpStatusCode.Unauthorized: {
-          console.log(`UNAUTHORIZED <RES> :: ${err.config?.headers}`);
-          break;
-        }
+    if (error.response?.status === 401) {
+      sessionStorage.removeItem("token");
+    }
 
-        case HttpStatusCode.Forbidden: {
-          console.log(`FORBIDDEN <RES> :: ${err.config?.headers}`);
-          break;
-        }
-
-        case HttpStatusCode.BadGateway: {
-          while (RETRY_COUNT++ <= RETRY_MAX_COUNT) {
-            backoffRequest(
-              RETRY_TIMEOUT * RETRY_COUNT,
-              err.config as InternalAxiosRequestConfig,
-            );
-          }
-
-          console.log(`BAD GATEWAY <RES> :: ${err.config}`);
-          break;
-        }
-
-        default: {
-          console.log(`AXIOS ERROR <RES> :: ${err.message} ${err.status}`);
-          break;
-        }
-      }
-    } else throw err;
+    return Promise.reject(new Error(message));
   },
 );
 
-export const get = async <Response>(
-  url: string,
-  config?: AxiosRequestConfig,
-): Promise<Response> => {
-  const res = await axiosInstance.get(url, config);
-  return res.data;
-};
-
-export const post = async <Request, Response>(
-  url: string,
-  data: Request,
-  config?: AxiosRequestConfig,
-): Promise<Response> => {
-  const res = await axiosInstance.post(url, data, config);
-  return res.data;
-};
-
-export const patch = async <Request, Response>(
-  url: string,
-  data: Request,
-  config?: AxiosRequestConfig,
-): Promise<Response> => {
-  return await axiosInstance.patch(url, data, config);
-};
-
-export const remove = async <Response>(
-  url: string,
-  config?: AxiosRequestConfig,
-): Promise<Response> => {
-  return await axiosInstance.delete(url, config);
-};
-
-const backoffRequest = async (
-  times: number,
-  config: InternalAxiosRequestConfig,
-) => {
-  setTimeout(async () => {
-    axiosInstance.request(config);
-  }, times);
-};
+export default instance;
