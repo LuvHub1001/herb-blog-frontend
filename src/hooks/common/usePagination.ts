@@ -16,7 +16,7 @@ const usePagination = ({ totalItems, divider }: PaginationProps) => {
   const isFirstPage: boolean = useMemo(() => currentPage === 1, [currentPage]);
   const isLastPage: boolean = useMemo(
     () => currentPage >= totalPage,
-    [currentPage],
+    [currentPage, totalPage],
   );
 
   const pageNumbers = Array.from(
