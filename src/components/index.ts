@@ -1,28 +1,28 @@
 // common
-import ErrorBoundary from "./common/ErrorBoundary";
-import Loading from "./common/Loading";
-import Navibar from "./common/Navibar";
-import Header from "./common/Header";
-import Footer from "./common/Footer";
-import LoginModal from "./common/LoginModal";
-import RenderComponent from "./common/RenderComponent";
-import Pagination from "./common/Pagination";
-import NoPost from "./common/NoPost";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
+import Loading from "@/components/common/Loading";
+import Navibar from "@/components/common/Navibar";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import LoginModal from "@/components/common/LoginModal";
+import RenderComponent from "@/components/common/RenderComponent";
+import Pagination from "@/components/common/Pagination";
+import NoPost from "@/components/common/NoPost";
 
 // posts
-import PostContainer from "./posts/PostContainer";
-import PostFetch from "./posts/PostFetch";
-import PostItem from "./posts/PostItem";
-import PostMainSkeleton from "./posts/PostMainSkeleton";
-import PostList from "./posts/PostList";
-import PostView from "./posts/PostView";
-import SearchResultList from "./posts/SearchResultList";
+import PostContainer from "@/components/posts/PostContainer";
+import PostFetch from "@/components/posts/PostFetch";
+import PostItem from "@/components/posts/PostItem";
+import PostMainSkeleton from "@/components/posts/PostMainSkeleton";
+import PostList from "@/components/posts/PostList";
+import PostView from "@/components/posts/PostView";
+import SearchResultList from "@/components/posts/SearchResultList";
 
 // admin
-import PostEditor from "./admin/PostEditor";
-import Sidebar from "./admin/Sidebar";
-import AdminPostList from "./admin/AdminPostList";
-import AdminChart from "./admin/AdminChart";
+import PostEditor from "@/components/admin/PostEditor";
+import Sidebar from "@/components/admin/Sidebar";
+import AdminPostList from "@/components/admin/AdminPostList";
+import AdminChart from "@/components/admin/AdminChart";
 
 export {
   ErrorBoundary,

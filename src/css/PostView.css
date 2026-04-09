@@ -1,5 +1,30 @@
-.toastui-editor-contents {
-  font-size: 16px !important;
-  line-height: 1.8 !important;
+.wmde-markdown {
+  font-size: 17px !important;
+  line-height: 1.9 !important;
   word-break: keep-all;
+  color: #1e293b;
+}
+
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3 {
+  border-bottom: none !important;
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+}
+
+.wmde-markdown pre {
+  border-radius: 12px;
+}
+
+.wmde-markdown img {
+  border-radius: 12px;
+  margin: 1.5em 0;
+}
+
+.wmde-markdown blockquote {
+  border-left: 4px solid #6366f1;
+  background: #f1f5f9;
+  padding: 1em 1.5em;
+  border-radius: 0 8px 8px 0;
 }

@@ -1,11 +1,7 @@
-import { PostEditor } from "../components";
+import { PostEditor } from "@/components";
 
 function EditPage() {
-  return (
-    <div className="mt-10">
-      <PostEditor />
-    </div>
-  );
+  return <PostEditor />;
 }
 
 export default EditPage;

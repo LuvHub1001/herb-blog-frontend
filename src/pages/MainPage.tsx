@@ -1,4 +1,4 @@
-import { PostContainer } from "../components";
+import { PostContainer } from "@/components";
 
 function MainPage() {
   return <PostContainer />;

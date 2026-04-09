@@ -1,18 +1,14 @@
 import { ComponentType } from "react";
-import { Header, Footer } from "../components";
+import { Header, Footer } from "@/components";
 
 function withCommonLayout(Component: ComponentType) {
   const WrappedComponent = () => {
     return (
-      <div>
+      <div className="min-h-screen flex flex-col bg-slate-50">
         <Header />
-        <div
-          style={{
-            minHeight: "calc(100vh - 360px)",
-          }}
-        >
+        <main className="flex-1">
           <Component />
-        </div>
+        </main>
         <Footer />
       </div>
     );

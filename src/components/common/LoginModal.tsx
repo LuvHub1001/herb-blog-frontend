@@ -1,79 +1,43 @@
-import { useState, useEffect } from "react";
-import { post } from "../../apis";
-
-interface LoginResponse {
-  token: string;
-}
+import { useLoginForm } from "@/hooks";
 
 function LoginModal() {
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      window.location.reload();
-    }
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const res = await post<{ id: string; password: string }, LoginResponse>(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        {
-          id,
-          password,
-        },
-      );
-      sessionStorage.setItem("token", res.token);
-      alert("환영합니다!");
-      window.location.reload();
-    } catch (e) {
-      console.log(e);
-      alert("존재하지 않는 계정입니다");
-    }
-  };
+  const { id, password, handleIdChange, handlePasswordChange, handleSubmit } =
+    useLoginForm();
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[400px] p-8 rounded-2xl bg-white shadow-2xl"
+      className="w-[360px] p-8 rounded-2xl bg-white shadow-2xl shadow-black/10"
     >
-      <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
-        관리자 로그인
-      </h2>
-
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          아이디
-        </label>
-        <input
-          type="text"
-          className="w-full h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          placeholder="아이디를 입력해주세요."
-        />
+      <div className="text-center mb-8">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        </div>
+        <h2 className="text-lg font-bold text-slate-800">관리자 로그인</h2>
       </div>
 
-      <div className="mb-8">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          비밀번호
-        </label>
+      <div className="space-y-4">
+        <input
+          type="text"
+          className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-300 transition-all"
+          value={id}
+          onChange={handleIdChange}
+          placeholder="아이디를 입력해주세요."
+        />
         <input
           type="password"
-          className="w-full h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-300 transition-all"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
           placeholder="비밀번호를 입력해주세요."
         />
       </div>
 
       <button
         type="submit"
-        className="w-full h-10 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-full transition"
+        className="w-full h-12 mt-6 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/25"
       >
         로그인
       </button>

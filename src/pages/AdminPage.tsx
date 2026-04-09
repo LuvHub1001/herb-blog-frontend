@@ -1,4 +1,4 @@
-import { AdminChart } from "../components";
+import { AdminChart } from "@/components";
 
 function AdminPage() {
   return <AdminChart />;

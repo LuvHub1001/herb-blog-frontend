@@ -1,4 +1,4 @@
-import { PostView } from "../components";
+import { PostView } from "@/components";
 
 function PostViewPage() {
   return <PostView />;

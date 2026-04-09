@@ -1,101 +1,63 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { get } from "../../apis";
-import { PostType } from "../../types";
-import { Pagination } from "../";
-import { useFetch } from "../../hooks";
+import { Pagination } from "@/components";
+import { useSearchResult } from "@/hooks";
 
 function SearchResultList() {
-  const [searchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") || "";
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState<PostType[]>([]);
-  const [totalItems, setTotalItems] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const divider = 8;
-
-  const searchResult = useFetch<string, PostType[]>(
-    get,
-    `${import.meta.env.VITE_API_URL}/boards/search?keyword=${encodeURIComponent(
-      keyword,
-    )}`,
-  );
-
-  useEffect(() => {
-    if (searchResult) {
-      setPosts(searchResult);
-      setTotalItems(searchResult.length);
-    }
-  }, [searchResult]);
-
-  const markdownRegex = (markdown: string) => {
-    return markdown
-      .replace(/!\[.*?\]\(.*?\)/g, "")
-      .replace(/\[.*?\]\(.*?\)/g, "")
-      .replace(/[#>*_\-\+~`]/g, "")
-      .replace(/\n+/g, " ")
-      .trim();
-  };
-
-  const paginatedPosts = posts.slice(
-    (currentPage - 1) * divider,
-    currentPage * divider,
-  );
+  const {
+    keyword,
+    paginatedPosts,
+    totalItems,
+    divider,
+    setCurrentPage,
+    handlePostClick,
+  } = useSearchResult();
 
   return (
-    <div className="px-6 py-10 bg-gray-50 min-h-screen">
-      <div className="text-3xl font-bold text-gray-700 mb-6 ml-4">
-        '{keyword}' 검색 결과
-      </div>
+    <div className="max-w-6xl mx-auto px-5 py-10">
+      <h1 className="text-2xl font-bold text-slate-800 mb-1">
+        <span className="text-indigo-500">'{keyword}'</span> 검색 결과
+      </h1>
+      <p className="text-sm text-slate-400 mb-8">{totalItems}개의 글을 찾았습니다</p>
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {paginatedPosts.map((item) => (
           <div
             key={item.id}
-            className="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden flex flex-col h-[370px]"
+            className="bg-white rounded-xl border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group"
+            onClick={() => handlePostClick(item.id)}
           >
-            <div className="h-[180px] overflow-hidden">
+            <div className="h-[200px] overflow-hidden bg-slate-100">
               <img
                 src={item.thumbnail || "/images/default_thumbnail.jpg"}
                 alt="썸네일"
-                className="w-full h-full object-cover cursor-pointer"
-                onClick={() => navigate(`/posts/detail/${item.id}`)}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
               />
             </div>
-            <div className="p-4 flex flex-col justify-between flex-1">
-              <div className="flex flex-col gap-2">
-                <h3
-                  className="text-lg font-semibold cursor-pointer hover:text-blue-500 transition line-clamp-1"
-                  onClick={() => navigate(`/posts/detail/${item.id}`)}
-                >
-                  {item.title}
-                </h3>
-                <div className="flex justify-between items-center text-sm text-gray-600">
-                  <span className="truncate max-w-[70%]">{item.subTitle}</span>
-                  <span>{item.writer}</span>
-                </div>
-                <p
-                  className="text-sm text-gray-700 cursor-pointer hover:text-blue-500 line-clamp-2"
-                  onClick={() => navigate(`/posts/detail/${item.id}`)}
-                >
-                  {markdownRegex(item.content)}
-                </p>
-              </div>
-              <span className="text-xs italic text-gray-400 mt-2">
-                {item.workdate?.slice(0, 10)}
+            <div className="p-5 flex flex-col flex-1">
+              <span className="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider mb-2">
+                {item.category}
               </span>
+              <h3 className="text-base font-semibold text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-sm text-slate-400 line-clamp-2 mt-2 leading-relaxed flex-1">
+                {item.subContent}
+              </p>
+              <div className="flex items-center gap-2 mt-4 pt-3 border-t border-slate-50 text-xs text-slate-400">
+                <span>{item.writer}</span>
+                <span className="text-slate-200">·</span>
+                <span>{item.workdate?.slice(0, 10)}</span>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-12">
-        <Pagination
-          totalItems={totalItems}
-          divider={divider}
-          onPageChange={setCurrentPage}
-        />
-      </div>
+      <Pagination
+        totalItems={totalItems}
+        divider={divider}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

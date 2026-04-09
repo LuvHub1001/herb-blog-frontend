@@ -1,14 +1,14 @@
 import { ComponentType } from "react";
-import { Header, Footer, Sidebar } from "../components";
+import { Header, Footer, Sidebar } from "@/components";
 
-function withCommonLayout(Component: ComponentType) {
+function withAdminLayout(Component: ComponentType) {
   const WrappedComponent = () => {
     return (
-      <div className="relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-slate-50">
         <Header />
-        <div className="flex min-h-[calc(100vh-360px)]">
+        <div className="flex flex-1 relative">
           <Sidebar />
-          <main className="flex-1 flex justify-center items-center">
+          <main className="flex-1 overflow-auto">
             <Component />
           </main>
         </div>
@@ -20,4 +20,4 @@ function withCommonLayout(Component: ComponentType) {
   return WrappedComponent;
 }
 
-export default withCommonLayout;
+export default withAdminLayout;

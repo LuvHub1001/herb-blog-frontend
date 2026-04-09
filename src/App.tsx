@@ -1,33 +1,28 @@
 import { Suspense, useEffect } from "react";
-import { ErrorBoundary, Loading } from "./components";
-import PublicRouter from "./routes/PublicRouter";
+import { Toaster } from "react-hot-toast";
+import { ErrorBoundary, Loading } from "@/components";
+import PublicRouter from "@/routers/PublicRouter";
+import { recordVisitor } from "@/apis/VisitorFetcher";
 import "./App.css";
 
 function App() {
   useEffect(() => {
-    const incrementVisitorCount = async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}/visitor`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("방문자 카운트 증가 실패");
-        }
-      } catch (error) {
-        console.error("방문자 카운트 증가 실패:", error);
-      }
-    };
-
-    incrementVisitorCount();
+    recordVisitor().catch(() => {});
   }, []);
 
   return (
     <ErrorBoundary>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            fontSize: "14px",
+            borderRadius: "12px",
+            padding: "12px 20px",
+          },
+        }}
+      />
       <Suspense fallback={<Loading />}>
         <PublicRouter />
       </Suspense>

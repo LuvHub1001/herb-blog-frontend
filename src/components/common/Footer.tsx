@@ -1,23 +1,29 @@
-import { useModal } from "../../hooks";
-import { LoginModal } from "../";
+import { useModal } from "@/hooks";
+import { LoginModal } from "@/components";
 
 function Footer() {
   const { isOpen, handleClick, setIsOpen } = useModal();
 
   return (
     <>
-      <div className="flex h-30 w-full items-center justify-center bg-black text-white">
-        <div>ⓒ 2025. Herb Corp. All rights reserved.</div>
-        <img
-          className="cursor-pointer ml-4"
-          src="/images/user_icon.png"
-          onClick={() => setIsOpen(true)}
-        />
-      </div>
+      <footer className="border-t border-slate-100 bg-white">
+        <div className="max-w-6xl mx-auto flex items-center justify-center h-16 px-5 gap-3">
+          <span className="text-sm text-slate-400">
+            © 2025 Herb Corp.
+          </span>
+          <span className="text-slate-200">|</span>
+          <button
+            className="text-sm text-slate-400 hover:text-indigo-500 transition-colors cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            Admin
+          </button>
+        </div>
+      </footer>
 
       {isOpen && (
         <div
-          className="flex mt-20 fixed inset-0 items-center justify-center bg-black/50 backdrop-blur-sm z-50"
+          className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-[1100]"
           onClick={handleClick}
         >
           <div onClick={(e) => e.stopPropagation()}>

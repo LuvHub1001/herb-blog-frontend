@@ -1,4 +1,4 @@
-import { AdminPostList } from "../components";
+import { AdminPostList } from "@/components";
 
 function AdminPostPage() {
   return <AdminPostList />;

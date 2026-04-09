@@ -1,62 +1,42 @@
 import { useNavigate } from "react-router-dom";
-import { PostType } from "../../types";
+import type { BoardListItem } from "@/types";
 
-interface itemsType {
-  items: PostType;
+interface PostItemProps {
+  items: BoardListItem;
 }
 
-function PostItem({ items }: itemsType) {
+function PostItem({ items }: PostItemProps) {
   const navigate = useNavigate();
-
-  const markdownRegex = (markdown: string) => {
-    return markdown
-      .replace(/!\[.*?\]\(.*?\)/g, "") // 이미지 제거
-      .replace(/\[.*?\]\(.*?\)/g, "") // 링크 제거
-      .replace(/[#>*_\-\+~`]/g, "") // 특수문자 제거
-      .replace(/\n+/g, " ") // 줄바꿈 -> 공백
-      .trim();
-  };
+  const goDetail = () => navigate(`/posts/detail/${items.id}`);
 
   return (
-    <div className="w-[280px] h-[370px] bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden flex flex-col">
-      <div className="h-[160px] overflow-hidden">
+    <div
+      className="w-[260px] bg-white rounded-xl border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group"
+      onClick={goDetail}
+    >
+      <div className="h-[150px] overflow-hidden bg-slate-100">
         <img
           alt="썸네일"
           src={items.thumbnail || "/images/default_thumbnail.jpg"}
-          className="w-full h-full object-cover cursor-pointer"
-          onClick={() => navigate(`/posts/detail/${items.id}`)}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
         />
       </div>
 
-      <div className="p-4 flex flex-col justify-between flex-1">
-        <div className="flex flex-col gap-2">
-          <h3
-            className="text-lg font-bold text-gray-800 cursor-pointer hover:text-blue-500 transition line-clamp-1"
-            onClick={() => navigate(`/posts/detail/${items.id}`)}
-          >
-            {items.title}
-          </h3>
-
-          <div className="flex justify-between items-center text-sm text-gray-600">
-            <span
-              className="truncate max-w-[70%] cursor-pointer"
-              onClick={() => navigate(`/posts/detail/${items.id}`)}
-            >
-              {items.subTitle}
-            </span>
-            <span className="text-gray-500">{items.writer}</span>
-          </div>
-
-          <p
-            className="text-sm text-gray-700 cursor-pointer hover:text-blue-500 transition line-clamp-2"
-            onClick={() => navigate(`/posts/detail/${items.id}`)}
-          >
-            {markdownRegex(items.content)}
-          </p>
-        </div>
-
-        <div className="text-xs text-gray-400 italic mt-2">
-          {items.workdate.slice(0, 10)}
+      <div className="p-4 flex flex-col flex-1">
+        <span className="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider mb-1.5">
+          {items.category}
+        </span>
+        <h3 className="text-[15px] font-semibold text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+          {items.title}
+        </h3>
+        <p className="text-[13px] text-slate-400 line-clamp-2 mt-1.5 leading-relaxed flex-1">
+          {items.subContent}
+        </p>
+        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-slate-50 text-[12px] text-slate-400">
+          <span>{items.writer}</span>
+          <span className="text-slate-200">·</span>
+          <span>{items.workdate.slice(0, 10)}</span>
         </div>
       </div>
     </div>

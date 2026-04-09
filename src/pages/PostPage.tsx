@@ -1,4 +1,4 @@
-import { PostList } from "../components";
+import { PostList } from "@/components";
 
 function PostPage() {
   return <PostList />;

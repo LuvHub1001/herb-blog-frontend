@@ -1,11 +1,7 @@
-import { PostFetch } from "../";
+import { PostFetch } from "@/components";
 
 function PostContainer() {
-  return (
-    <div className="ml-20">
-      <PostFetch />
-    </div>
-  );
+  return <PostFetch />;
 }
 
 export default PostContainer;
