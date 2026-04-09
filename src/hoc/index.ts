@@ -1,4 +1,4 @@
-import withCommonLayout from "./withCommonLayout";
-import withAdminLayout from "./withAdminLayout";
+import withCommonLayout from "@/hoc/withCommonLayout";
+import withAdminLayout from "@/hoc/withAdminLayout";
 
 export { withCommonLayout, withAdminLayout };
