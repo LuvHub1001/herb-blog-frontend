@@ -8,11 +8,17 @@ const instance = axios.create({
   },
 });
 
-// 토큰 자동 주입
+// 토큰 자동 주입 + GET 요청 캐시 바이패스
 instance.interceptors.request.use((config) => {
   const token = sessionStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+  // GET 응답에 대한 브라우저/중간 캐시 방지 (삭제·수정 직후 stale 응답 방지)
+  if ((config.method ?? "get").toLowerCase() === "get") {
+    config.headers["Cache-Control"] = "no-cache";
+    config.headers["Pragma"] = "no-cache";
+    config.params = { ...(config.params ?? {}), _t: Date.now() };
   }
   return config;
 });

@@ -43,7 +43,9 @@ const usePostView = () => {
 
     try {
       await deleteBoard(id);
-      await queryClient.invalidateQueries({ queryKey: ["boards"] });
+      // 삭제된 detail 쿼리는 제거, 목록 쿼리는 무효화 (리페치는 메인 재마운트 시 수행)
+      queryClient.removeQueries({ queryKey: ["boards", "detail", id] });
+      queryClient.invalidateQueries({ queryKey: ["boards"], refetchType: "none" });
       toast.success("게시글이 삭제되었습니다.");
       navigate("/");
     } catch (error) {
