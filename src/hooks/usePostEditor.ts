@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import imageCompression from "browser-image-compression";
 import { getBoardDetail, createBoard, updateBoard } from "@/apis/BoardFetcher";
@@ -35,6 +36,7 @@ function validateForm(formData: PostFormData, content: string): string | null {
 const usePostEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState(initialFormData);
   const [content, setContent] = useState("내용을 입력하세요");
@@ -124,13 +126,14 @@ const usePostEditor = () => {
         await createBoard(postData);
         toast.success("게시글이 저장되었습니다!");
       }
+      await queryClient.invalidateQueries({ queryKey: ["boards"] });
       navigate("/");
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "게시글 저장에 실패했습니다.",
       );
     }
-  }, [formData, content, existingThumbnail, thumbnailFile, id, navigate]);
+  }, [formData, content, existingThumbnail, thumbnailFile, id, navigate, queryClient]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => e.preventDefault(),

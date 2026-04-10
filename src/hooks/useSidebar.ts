@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useSidebar = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const useSidebar = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
+    queryClient.clear();
     navigate("/");
   };
 

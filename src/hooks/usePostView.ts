@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getBoardDetail, deleteBoard } from "@/apis/BoardFetcher";
 import useAuth from "@/hooks/useAuth";
@@ -8,6 +8,7 @@ import useAuth from "@/hooks/useAuth";
 const usePostView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isAdmin } = useAuth();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -42,6 +43,7 @@ const usePostView = () => {
 
     try {
       await deleteBoard(id);
+      await queryClient.invalidateQueries({ queryKey: ["boards"] });
       toast.success("게시글이 삭제되었습니다.");
       navigate("/");
     } catch (error) {
