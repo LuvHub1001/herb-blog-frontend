@@ -17,7 +17,7 @@ function PostItem({ items }: PostItemProps) {
       <div className="h-[150px] overflow-hidden bg-slate-100">
         <img
           alt="썸네일"
-          src={items.thumbnail || "/images/default_thumbnail.jpg"}
+          src={items.thumbnail || "/images/default_thumbnail.svg"}
           width={260}
           height={150}
           loading="lazy"

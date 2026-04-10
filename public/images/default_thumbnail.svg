@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eef2ff"/>
+      <stop offset="50%" stop-color="#e0e7ff"/>
+      <stop offset="100%" stop-color="#c7d2fe"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a5b4fc" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#a5b4fc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="240" fill="url(#bg)"/>
+  <circle cx="200" cy="120" r="130" fill="url(#glow)"/>
+
+  <circle cx="60" cy="50" r="3" fill="#6366f1" opacity="0.25"/>
+  <circle cx="340" cy="70" r="2" fill="#6366f1" opacity="0.3"/>
+  <circle cx="80" cy="190" r="2.5" fill="#6366f1" opacity="0.25"/>
+  <circle cx="330" cy="200" r="3" fill="#6366f1" opacity="0.2"/>
+  <circle cx="150" cy="40" r="1.8" fill="#6366f1" opacity="0.3"/>
+  <circle cx="270" cy="210" r="1.8" fill="#6366f1" opacity="0.3"/>
+
+  <g transform="translate(200 120)">
+    <path d="M 0 -40 C 22 -40 38 -22 38 0 C 38 22 22 40 0 40 C -22 40 -38 22 -38 0 C -38 -22 -22 -40 0 -40 Z"
+          fill="none" stroke="url(#leaf)" stroke-width="2.5" opacity="0.9"/>
+    <path d="M 0 -28 C 14 -28 26 -14 26 0 C 26 14 14 28 0 28 C -14 28 -26 14 -26 0"
+          fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.5"/>
+    <path d="M -18 -8 Q 0 -22 18 -8 Q 10 6 0 4 Q -10 6 -18 -8 Z"
+          fill="url(#leaf)" opacity="0.95"/>
+    <path d="M 0 4 L 0 20" stroke="#6366f1" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+    <circle cx="0" cy="0" r="1.8" fill="#ffffff"/>
+  </g>
+
+  <text x="200" y="195" text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="12" font-weight="600" fill="#6366f1" opacity="0.75"
+        letter-spacing="3">HERB BLOG</text>
+</svg>

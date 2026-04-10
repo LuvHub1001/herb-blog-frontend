@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { withCommonLayout, withAdminLayout, withAuthGuard } from "@/hoc";
 import { Loading } from "@/components";
 
@@ -41,6 +41,7 @@ function PublicRouter() {
           <Route path="/admin/postlist" element={<WrappedAdminPostPage />} />
           <Route path="/search" element={<WrappedSearchPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </Suspense>

@@ -27,7 +27,7 @@ function SearchResultList() {
           >
             <div className="h-[200px] overflow-hidden bg-slate-100">
               <img
-                src={item.thumbnail || "/images/default_thumbnail.jpg"}
+                src={item.thumbnail || "/images/default_thumbnail.svg"}
                 alt="썸네일"
                 width={400}
                 height={200}
