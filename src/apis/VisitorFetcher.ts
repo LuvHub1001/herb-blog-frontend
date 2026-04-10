@@ -1,11 +1,9 @@
 import instance from "@/apis";
 import type { VisitorStats } from "@/types";
 
-// 방문자 기록
+// 방문자 기록 (IP는 서버에서 x-forwarded-for로 자동 추출)
 export const recordVisitor = async (): Promise<void> => {
-  // IP는 서버에서 추출하는 것이 일반적이지만, API 스펙상 body에 필요
-  // 실제 IP는 서버에서 판별하므로 빈 문자열 전송
-  await instance.post("/visitor", { ip: "" });
+  await instance.post("/visitor", {});
 };
 
 // 방문자 통계
