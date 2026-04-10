@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { login } from "@/apis/AuthFetcher";
 
 const useLoginForm = () => {
+  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +23,7 @@ const useLoginForm = () => {
       const res = await login(id, password);
       sessionStorage.setItem("token", res.token);
       toast.success("환영합니다!");
-      window.location.reload();
+      navigate("/admin", { replace: true });
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "로그인에 실패했습니다.",
