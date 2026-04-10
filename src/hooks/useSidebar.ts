@@ -18,7 +18,12 @@ const useSidebar = () => {
     navigate(path);
   };
 
-  return { isOpen, handleToggleSidebar, handleNavigate };
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/");
+  };
+
+  return { isOpen, handleToggleSidebar, handleNavigate, handleLogout };
 };
 
 export default useSidebar;

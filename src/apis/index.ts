@@ -31,12 +31,20 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    const message =
-      error.response?.data?.error || error.message || "네트워크 오류";
+    const status = error.response?.status;
 
-    if (error.response?.status === 401) {
+    if (status === 401 || status === 403) {
       sessionStorage.removeItem("token");
     }
+
+    const message =
+      status === 401
+        ? "인증이 만료되었습니다. 다시 로그인해주세요."
+        : status === 403
+          ? "접근 권한이 없습니다."
+          : status && status >= 500
+            ? "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요."
+            : error.response?.data?.error || "요청 처리 중 오류가 발생했습니다.";
 
     return Promise.reject(new Error(message));
   },

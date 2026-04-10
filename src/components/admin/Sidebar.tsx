@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useSidebar } from "@/hooks";
 
 function Sidebar() {
-  const { isOpen, handleToggleSidebar, handleNavigate } = useSidebar();
+  const { isOpen, handleToggleSidebar, handleNavigate, handleLogout } = useSidebar();
 
   const menuItems = [
     { label: "블로그 관리", path: "/admin" },
@@ -55,6 +55,15 @@ function Sidebar() {
               </button>
             ))}
           </nav>
+
+          <div className="mt-auto pt-6 border-t border-slate-700">
+            <button
+              className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-red-900/30 transition-colors text-red-400 hover:text-red-300 cursor-pointer"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
+          </div>
         </div>
       </aside>
     </>

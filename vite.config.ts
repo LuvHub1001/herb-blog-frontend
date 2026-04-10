@@ -17,6 +17,7 @@ export default defineConfig({
   build: {
     target: "es2020",
     sourcemap: false,
+    modulePreload: false,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -24,7 +25,6 @@ export default defineConfig({
           query: ["@tanstack/react-query"],
           editor: ["@uiw/react-md-editor"],
           chart: ["chart.js", "react-chartjs-2"],
-          supabase: ["@supabase/supabase-js"],
         },
       },
     },

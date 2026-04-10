@@ -1,4 +1,7 @@
-import MDEditor from "@uiw/react-md-editor";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import remarkGfm from "remark-gfm";
 import "@/css/PostView.css";
 import { usePostView } from "@/hooks";
 
@@ -39,7 +42,14 @@ function PostView() {
             className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-10"
             data-color-mode="light"
           >
-            <MDEditor.Markdown source={postData.content} />
+            <div className="wmde-markdown">
+              <Markdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw, rehypeSanitize]}
+              >
+                {postData.content}
+              </Markdown>
+            </div>
           </div>
         </>
       ) : (

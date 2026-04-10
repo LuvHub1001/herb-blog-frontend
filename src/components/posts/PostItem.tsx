@@ -18,6 +18,8 @@ function PostItem({ items }: PostItemProps) {
         <img
           alt="썸네일"
           src={items.thumbnail || "/images/default_thumbnail.jpg"}
+          width={260}
+          height={150}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
         />

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { withCommonLayout, withAdminLayout } from "@/hoc";
+import { withCommonLayout, withAdminLayout, withAuthGuard } from "@/hoc";
 import { Loading } from "@/components";
 
 const MainPage = lazy(() => import("@/pages/MainPage"));
@@ -10,7 +10,8 @@ const PostPage = lazy(() => import("@/pages/PostPage"));
 const WrappedPostPage = withCommonLayout(PostPage);
 
 const EditPage = lazy(() => import("@/pages/EditPage"));
-const WrappedEditPage = withCommonLayout(EditPage);
+const GuardedEditPage = withAuthGuard(EditPage);
+const WrappedEditPage = withCommonLayout(GuardedEditPage);
 
 const PostViewPage = lazy(() => import("@/pages/PostViewPage"));
 const WrappedPostViewPage = withCommonLayout(PostViewPage);

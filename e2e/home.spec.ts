@@ -22,7 +22,7 @@ test.describe("메인 페이지", () => {
   });
 
   test("DIARY 섹션이 표시된다", async ({ page }) => {
-    await expect(page.getByText("DIARY")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Diary", exact: true })).toBeVisible();
   });
 
   test("Footer가 표시된다", async ({ page }) => {

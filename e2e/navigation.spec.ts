@@ -9,7 +9,7 @@ test.describe("라우트 네비게이션", () => {
 
   test("메인 페이지에서 DIARY 카테고리로 이동한다", async ({ page }) => {
     await page.goto("/");
-    await page.getByText("DIARY").first().click();
+    await page.getByRole("heading", { name: "Diary", exact: true }).click();
     await expect(page).toHaveURL(/\/posts\/diary/);
   });
 
