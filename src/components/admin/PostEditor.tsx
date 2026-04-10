@@ -1,52 +1,68 @@
-import { useRef, useState } from "react";
-import MDEditor from "@uiw/react-md-editor";
+import { useEffect, useRef } from "react";
+import Editor from "@toast-ui/editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import { usePostEditor } from "@/hooks";
 
 function PostEditor() {
   const {
     formData,
-    content,
+    initialContent,
+    isReady,
     thumbnailFile,
     existingThumbnail,
     handleChange,
-    handleContentChange,
     handleThumbnailSelect,
-    handleImageUpload,
+    uploadImageFile,
     handleSave,
     handleSubmit,
   } = usePostEditor();
 
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  // Toast UI는 React 19 호환 래퍼가 없어서 vanilla 패키지를 직접 마운트한다.
+  // 본문은 에디터 내부 state에 두고, 저장 시점에 인스턴스에서 한 번만 읽는다 (입력 지연 방지).
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  const editorInstanceRef = useRef<Editor | null>(null);
 
-  const handleImageButtonClick = () => {
-    imageInputRef.current?.click();
-  };
+  useEffect(() => {
+    if (!isReady || !editorContainerRef.current) return;
 
-  const handleImageFileSelect = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const editor = new Editor({
+      el: editorContainerRef.current,
+      initialValue: initialContent,
+      previewStyle: "vertical", // 좌: 마크다운 / 우: 미리보기 (split-view)
+      height: "700px",
+      initialEditType: "markdown",
+      useCommandShortcut: true,
+      placeholder: "내용을 입력하세요",
+      hooks: {
+        addImageBlobHook: async (blob, callback) => {
+          try {
+            const file =
+              blob instanceof File
+                ? blob
+                : new File([blob], "image.png", { type: blob.type });
+            const url = await uploadImageFile(file);
+            callback(url, "");
+          } catch {
+            // uploadImageFile 내부에서 toast.error 처리
+          }
+        },
+      },
+    });
 
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    const markdown = await handleImageUpload(dt);
-    if (markdown) {
-      handleContentChange(content + "\n" + markdown);
-    }
-    e.target.value = "";
-  };
+    editorInstanceRef.current = editor;
 
-  const handleDrop = async (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files.length > 0) {
-      const markdown = await handleImageUpload(e.dataTransfer);
-      if (markdown) {
-        handleContentChange(content + "\n" + markdown);
-      }
-    }
+    return () => {
+      editor.destroy();
+      editorInstanceRef.current = null;
+    };
+    // initialContent는 isReady가 true가 되는 시점에 확정되므로 의도적으로 의존성에서 제외.
+    // 포함하면 입력 도중 에디터가 재마운트될 위험이 있음.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReady, uploadImageFile]);
+
+  const onClickSave = () => {
+    const md = editorInstanceRef.current?.getMarkdown() ?? "";
+    handleSave(md);
   };
 
   return (
@@ -99,59 +115,21 @@ function PostEditor() {
         </div>
       </div>
 
-      <div
-        className={`mt-6 relative rounded-xl transition-all ${isDragging ? "ring-2 ring-indigo-500 ring-offset-2" : ""}`}
-        data-color-mode="light"
-        onDragOver={(e) => {
-          e.preventDefault();
-          setIsDragging(true);
-        }}
-        onDragLeave={() => setIsDragging(false)}
-        onDrop={handleDrop}
-      >
-        {isDragging && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-indigo-50/80 rounded-xl border-2 border-dashed border-indigo-400 pointer-events-none">
-            <p className="text-indigo-600 font-medium">이미지를 놓아주세요</p>
+      <div className="mt-6 rounded-xl border border-slate-200 bg-white overflow-hidden">
+        {isReady ? (
+          <div ref={editorContainerRef} />
+        ) : (
+          <div className="min-h-[700px] flex items-center justify-center text-slate-400 text-sm">
+            불러오는 중...
           </div>
         )}
-
-        <div className="flex items-center gap-2 mb-2">
-          <button
-            type="button"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer"
-            onClick={handleImageButtonClick}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-            </svg>
-            이미지 첨부
-          </button>
-          <span className="text-[11px] text-slate-400">
-            또는 이미지를 드래그하여 놓아주세요
-          </span>
-        </div>
-
-        <input
-          ref={imageInputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleImageFileSelect}
-        />
-
-        <MDEditor
-          value={content}
-          onChange={handleContentChange}
-          height={700}
-          preview="edit"
-        />
       </div>
 
       <div className="flex justify-end mt-6">
         <button
           type="button"
           className="px-8 py-3 text-sm font-semibold text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl transition-colors shadow-sm cursor-pointer"
-          onClick={handleSave}
+          onClick={onClickSave}
         >
           저장
         </button>

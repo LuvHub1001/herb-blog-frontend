@@ -1,7 +1,6 @@
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
-import remarkGfm from "remark-gfm";
+import { useEffect, useRef } from "react";
+import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import "@/css/PostView.css";
 import { usePostView } from "@/hooks";
 
@@ -16,6 +15,26 @@ function PostView() {
     handleRemoveCancel,
     handleGoBack,
   } = usePostView();
+
+  // Toast UI Viewer를 vanilla로 마운트한다 (React 19 호환 래퍼 없음).
+  // PostEditor의 미리보기와 동일한 렌더러라 결과물이 일치한다.
+  const viewerContainerRef = useRef<HTMLDivElement>(null);
+  const viewerInstanceRef = useRef<Viewer | null>(null);
+
+  useEffect(() => {
+    if (!postData || !viewerContainerRef.current) return;
+
+    const viewer = new Viewer({
+      el: viewerContainerRef.current,
+      initialValue: postData.content,
+    });
+    viewerInstanceRef.current = viewer;
+
+    return () => {
+      viewer.destroy();
+      viewerInstanceRef.current = null;
+    };
+  }, [postData]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
@@ -38,18 +57,8 @@ function PostView() {
             </div>
           </div>
 
-          <div
-            className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-10"
-            data-color-mode="light"
-          >
-            <div className="wmde-markdown">
-              <Markdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw, rehypeSanitize]}
-              >
-                {postData.content}
-              </Markdown>
-            </div>
+          <div className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-10">
+            <div ref={viewerContainerRef} />
           </div>
         </>
       ) : (

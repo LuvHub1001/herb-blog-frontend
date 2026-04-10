@@ -1,28 +1,29 @@
-.wmde-markdown {
+/* Toast UI Viewer (`.toastui-editor-contents`) 위에 블로그 톤 오버라이드 */
+.toastui-editor-contents {
   font-size: 17px !important;
   line-height: 1.9 !important;
   word-break: keep-all;
   color: #1e293b;
 }
 
-.wmde-markdown h1,
-.wmde-markdown h2,
-.wmde-markdown h3 {
+.toastui-editor-contents h1,
+.toastui-editor-contents h2,
+.toastui-editor-contents h3 {
   border-bottom: none !important;
   margin-top: 2em;
   margin-bottom: 0.8em;
 }
 
-.wmde-markdown pre {
+.toastui-editor-contents pre {
   border-radius: 12px;
 }
 
-.wmde-markdown img {
+.toastui-editor-contents img {
   border-radius: 12px;
   margin: 1.5em 0;
 }
 
-.wmde-markdown blockquote {
+.toastui-editor-contents blockquote {
   border-left: 4px solid #6366f1;
   background: #f1f5f9;
   padding: 1em 1.5em;

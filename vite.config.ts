@@ -23,7 +23,7 @@ export default defineConfig({
         manualChunks: {
           router: ["react-router-dom"],
           query: ["@tanstack/react-query"],
-          editor: ["@uiw/react-md-editor"],
+          editor: ["@toast-ui/editor"],
           chart: ["chart.js", "react-chartjs-2"],
         },
       },

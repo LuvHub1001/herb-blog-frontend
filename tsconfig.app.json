@@ -25,7 +25,10 @@
     /* Path alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      // @toast-ui/editor가 package.json exports에 types 경로를 안 노출해서
+      // bundler resolution으로는 타입을 못 찾는다. 직접 매핑한다 (런타임은 영향 없음).
+      "@toast-ui/editor": ["node_modules/@toast-ui/editor/types/index.d.ts"]
     }
   },
   "include": ["src"]

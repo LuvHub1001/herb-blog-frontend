@@ -39,9 +39,15 @@ const usePostEditor = () => {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState(initialFormData);
-  const [content, setContent] = useState("내용을 입력하세요");
+  // 에디터의 초기 마크다운만 보관한다. 입력 중인 본문은 React state로 끌어올리지 않는다
+  // (매 키 입력마다 부모 리렌더 + MDXEditor 리렌더가 발생해 입력이 느려짐).
+  // 저장 시점에 PostEditor가 ref로 현재 마크다운을 읽어 handleSave에 넘긴다.
+  const [initialContent, setInitialContent] = useState("");
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [existingThumbnail, setExistingThumbnail] = useState("");
+  // 새 글이면 즉시 ready, 수정 모드면 API 응답 후 ready.
+  // MDXEditor의 markdown prop은 초기값으로만 쓰이므로 ready 시점에 한 번만 마운트해야 한다.
+  const [isReady, setIsReady] = useState(!id);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -50,10 +56,6 @@ const usePostEditor = () => {
     },
     [],
   );
-
-  const handleContentChange = useCallback((value?: string) => {
-    setContent(value || "");
-  }, []);
 
   const handleThumbnailSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,27 +67,20 @@ const usePostEditor = () => {
     [],
   );
 
-  const handleImageUpload = useCallback(
-    async (dataTransfer: DataTransfer): Promise<string> => {
-      const file = dataTransfer.files[0];
-      if (!file) return "";
+  const uploadImageFile = useCallback(async (file: File): Promise<string> => {
+    try {
+      const resizedFile = await imageCompression(
+        file,
+        IMAGE_COMPRESSION_OPTIONS,
+      );
+      return await uploadImage(resizedFile);
+    } catch {
+      toast.error("이미지 업로드에 실패했습니다.");
+      throw new Error("이미지 업로드에 실패했습니다.");
+    }
+  }, []);
 
-      try {
-        const resizedFile = await imageCompression(
-          file,
-          IMAGE_COMPRESSION_OPTIONS,
-        );
-        const url = await uploadImage(resizedFile);
-        return `![image](${url})`;
-      } catch {
-        toast.error("이미지 업로드에 실패했습니다.");
-        return "";
-      }
-    },
-    [],
-  );
-
-  const handleSave = useCallback(async () => {
+  const handleSave = useCallback(async (content: string) => {
     const validationError = validateForm(formData, content);
     if (validationError) {
       toast.error(validationError);
@@ -133,7 +128,7 @@ const usePostEditor = () => {
         error instanceof Error ? error.message : "게시글 저장에 실패했습니다.",
       );
     }
-  }, [formData, content, existingThumbnail, thumbnailFile, id, navigate, queryClient]);
+  }, [formData, existingThumbnail, thumbnailFile, id, navigate, queryClient]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => e.preventDefault(),
@@ -152,7 +147,8 @@ const usePostEditor = () => {
           title: response.title,
         });
         setExistingThumbnail(response.thumbnail || "");
-        setContent(response.content);
+        setInitialContent(response.content);
+        setIsReady(true);
       } catch {
         toast.error("게시글 로딩에 실패했습니다.");
       }
@@ -163,13 +159,13 @@ const usePostEditor = () => {
 
   return {
     formData,
-    content,
+    initialContent,
+    isReady,
     thumbnailFile,
     existingThumbnail,
     handleChange,
-    handleContentChange,
     handleThumbnailSelect,
-    handleImageUpload,
+    uploadImageFile,
     handleSave,
     handleSubmit,
   };

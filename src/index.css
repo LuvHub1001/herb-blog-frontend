@@ -3,18 +3,3 @@
 .bg-header {
   @apply bg-[url('/images/header.jpg')] bg-cover bg-center;
 }
-
-/* @uiw/react-md-editor: 기본 폰트가 비등폭(Helvetica Neue)이어서 textarea와 하이라이트
-   pre 오버레이의 글자 폭이 맞지 않아 커서가 밀림 — 특히 한글 입력 시 심함.
-   라이브러리가 CSS 변수로 관리하므로 변수만 등폭 폰트로 덮는다. */
-.w-md-editor {
-  --md-editor-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "D2Coding", "나눔고딕코딩", "Liberation Mono", "Courier New", monospace;
-}
-.w-md-editor-text,
-.w-md-editor-text-pre,
-.w-md-editor-text-input,
-.w-md-editor-text-pre > code {
-  letter-spacing: 0 !important;
-  font-variant-ligatures: none !important;
-}
