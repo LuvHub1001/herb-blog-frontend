@@ -143,7 +143,7 @@ function PostEditor() {
           value={content}
           onChange={handleContentChange}
           height={700}
-          preview="live"
+          preview="edit"
         />
       </div>
 

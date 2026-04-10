@@ -3,3 +3,19 @@
 .bg-header {
   @apply bg-[url('/images/header.jpg')] bg-cover bg-center;
 }
+
+/* @uiw/react-md-editor: textarea와 하이라이트 오버레이의 폰트 메트릭을 강제로 일치시켜
+   입력 중 커서 위치가 점점 어긋나는 문제를 방지 (한글 IME 입력 시 특히 발생) */
+.w-md-editor-text,
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text-pre > code,
+.w-md-editor-text-pre .code-line {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+  font-variant-ligatures: none !important;
+  tab-size: 2 !important;
+}
